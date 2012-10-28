@@ -7,6 +7,18 @@ Das Programm geht davon aus, das sich eine passende Datenbank im
 Programmverzeichnis unter "SchliessfachDB" befindet.
 Diese Datenbank muss vor der Verwendung erzeugt werden.
 
+
+Erzeugen des Programms
+----------------------
+Es handelt sich um ein ant-Projekt. Tippen Sie
+
+ant
+
+ant create_run_jar
+
+um das JAR-Archiv zu erzeugen.
+
+
 Erzeugen der Datenbank
 ----------------------
 Es sind die Dateien ij.sh und SchliessfachDB.sql notwendig.
@@ -64,3 +76,4 @@ und deren Konten ausgeglichen sind.
 
 Hildesheim, 2012
 Frank Schütte
+fschuett@gymnasium-himmelsthuer.de
