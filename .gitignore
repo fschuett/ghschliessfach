@@ -3,6 +3,6 @@ GHSchliessfach_lib/
 GHSchliessfach.jar
 SchliessfachDB/
 derby.log
-Hinweise.txt
+README_de.md
 SchliessfachDB.sql
 ij.sh

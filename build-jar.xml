@@ -23,7 +23,7 @@
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/appframework-1.0.3.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/beansbinding-1.2.1.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/ij.sh" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
-        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/README_de.md" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/Hinweise.txt"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/README_de.md" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/"/>
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/SchliessfachDB.sql" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
     </target>
 </project>
