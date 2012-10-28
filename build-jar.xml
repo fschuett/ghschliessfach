@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse.ant.import?>
+<project default="create_run_jar" name="Create Runnable Jar for Project GHSchliessfach with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach.jar">
+            <manifest>
+                <attribute name="Main-Class" value="schliessfach.SchliessfachApp"/>
+                <attribute name="Class-Path" value=". GHSchliessfach_lib/derby.jar GHSchliessfach_lib/eclipselink.jar GHSchliessfach_lib/javax.persistence_1.0.0.jar GHSchliessfach_lib/javax.persistence_2.0.3.v201010191057.jar GHSchliessfach_lib/appframework-1.0.3.jar GHSchliessfach_lib/beansbinding-1.2.1.jar"/>
+                <attribute name="SplashScreen-Image" value="schliessfach/resources/splash.png"/>
+            </manifest>
+            <fileset dir="/home/fschuett/prog/java/eclipse/ghschliessfach/bin"/>
+        </jar>
+        <delete dir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <mkdir dir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/derby.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/derbyLocale_de_DE.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/derbytools.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/eclipselink.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/javax.persistence_1.0.0.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/javax.persistence_2.0.3.v201010191057.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/appframework-1.0.3.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/lib/beansbinding-1.2.1.jar" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/GHSchliessfach_lib"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/ij.sh" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/Hinweise.txt" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/SchliessfachDB.sql" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
+    </target>
+</project>
