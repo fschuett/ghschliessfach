@@ -2,3 +2,7 @@ bin/
 GHSchliessfach_lib/
 GHSchliessfach.jar
 SchliessfachDB/
+derby.log
+Hinweise.txt
+SchliessfachDB.sql
+ij.sh
