@@ -272,6 +272,7 @@ public class SchliessfachView extends FrameView {
 						}
 					}
 				});
+		aktualisiereJahrliste();
 	}
 
 	@Action
