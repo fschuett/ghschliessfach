@@ -45,7 +45,7 @@ public class ZahlungDlg extends javax.swing.JDialog {
         Query q = em.createQuery("SELECT z.leihJahr FROM Zahlung z JOIN z.vertrag v WHERE v.id=" + vertrag.getId()
                 + " AND z.art=vertrag.Zahlungsart.Miete ORDER BY z.leihJahr DESC");
         List<Integer> bisherigeJahre = q.getResultList();
-        if (!bisherigeJahre.isEmpty()) {
+        if (!bisherigeJahre.isEmpty() && bisherigeJahre.get(0) != null) {
             diesJahr = bisherigeJahre.get(0) + 1;
         }
         try {
