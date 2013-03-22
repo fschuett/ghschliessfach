@@ -74,6 +74,15 @@ z.B. 3012 --> 300012.
 Es können nur Schüler entfernt werden, für die kein offener Vertrag existiert 
 und deren Konten ausgeglichen sind.
 
-Hildesheim, 2012
+Schülernummernimport
+--------------------
+Bei einem Wechsel des Schulverwaltungsprogramms können sich die Schülernummern ändern.
+Dieser Menüpunkt ermöglicht die Ersetzung der alten durch neue Nummern.
+Dateiformat:
+<Überschrift>
+<Nummer_alt>;<Nummer_neu>
+...
+
+Hildesheim, 2013
 Frank Schütte
 fschuett@gymnasium-himmelsthuer.de

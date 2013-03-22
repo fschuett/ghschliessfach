@@ -54,12 +54,14 @@ import schliessfach.dialoge.SuchDialog;
 import schueler.Schueler;
 import schueler.SchuelerImportDlg;
 import schueler.SchuelereingabeDlg;
+import schueler.SchuelernummernImportDlg;
 import vertrag.Vertrag;
 import vertrag.VertragDlg;
 import vertrag.Zahlung;
 import vertrag.Zahlungsart;
 import javax.swing.JSeparator;
 import javax.swing.JMenuItem;
+import javax.swing.AbstractAction;
 
 /**
  * The application's main frame.
@@ -289,12 +291,15 @@ public class SchliessfachView extends FrameView {
 		try {
 			Scanner in = new Scanner(new File("Hinweise.txt"));
 			String s = in.nextLine() + "\n";
-			while(in.hasNext())
+			while (in.hasNext())
 				s = s + in.nextLine() + "\n";
 			JTextArea inhalt = new JTextArea(s, 20, 60);
 			inhalt.setEditable(false);
-			JScrollPane scroller = new JScrollPane(inhalt, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			javax.swing.JOptionPane.showMessageDialog(SchliessfachApp.getApplication().getMainFrame(),scroller);
+			JScrollPane scroller = new JScrollPane(inhalt,
+					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			javax.swing.JOptionPane.showMessageDialog(SchliessfachApp
+					.getApplication().getMainFrame(), scroller);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -383,6 +388,7 @@ public class SchliessfachView extends FrameView {
 		menuBar = new javax.swing.JMenuBar();
 		javax.swing.JMenu dateiMenu = new javax.swing.JMenu();
 		miImportieren = new javax.swing.JMenuItem();
+		miNummernImportieren = new javax.swing.JMenuItem();
 		miDrucker = new javax.swing.JMenuItem();
 		javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
 		suchenMenu = new javax.swing.JMenu();
@@ -2099,9 +2105,22 @@ public class SchliessfachView extends FrameView {
 		});
 		dateiMenu.add(miImportieren);
 
+		miNummernImportieren.setText(resourceMap
+				.getString("miNummernImportieren.text"));
+		miNummernImportieren
+				.setToolTipText("Mit diesem Dialog können bei einem Wechsel des Schulverwaltungsprogramms für bestehende Schüler neue Schülernummern importiert werden.");
+		miNummernImportieren.setName("miNummernImportieren");
+		miNummernImportieren.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miNummernImportierenActionPerformed(e);
+			}
+		});
+		dateiMenu.add(miNummernImportieren);
+
 		javax.swing.ActionMap actionMap = org.jdesktop.application.Application
 				.getInstance(schliessfach.SchliessfachApp.class).getContext()
 				.getActionMap(SchliessfachView.class, this);
+
 		miDrucker.setAction(actionMap.get("druckerEinstellen")); // NOI18N
 		miDrucker.setText(resourceMap.getString("miDrucker.text")); // NOI18N
 		miDrucker.setName("miDrucker"); // NOI18N
@@ -2226,11 +2245,11 @@ public class SchliessfachView extends FrameView {
 
 		helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
 		helpMenu.setName("helpMenu"); // NOI18N
-		
+
 		hinweiseMenuItem = new JMenuItem("Hinweise");
 		hinweiseMenuItem.setName("hinweiseMenuItem");
-		hinweiseMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt){
+		hinweiseMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
 				showHinweiseBox();
 			}
 		});
@@ -2408,6 +2427,16 @@ public class SchliessfachView extends FrameView {
 		dlg.setVisible(true);
 		aktualisiereKlassenliste();
 	}// GEN-LAST:event_miImportierenActionPerformed
+
+	private void miNummernImportierenActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		SchuelernummernImportDlg dlg = new SchuelernummernImportDlg(
+				SchliessfachApp.getApplication().getMainFrame());
+		dlg.setLocationRelativeTo(SchliessfachApp.getApplication()
+				.getMainFrame());
+		dlg.setVisible(true);
+		aktualisiereKlassenliste();
+	}
 
 	private void vertragNeuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vertragNeuActionPerformed
 		if (aktuellerSchueler == null) {
@@ -2872,6 +2901,7 @@ public class SchliessfachView extends FrameView {
 	private javax.swing.JMenuBar menuBar;
 	private javax.swing.JMenuItem miDrucker;
 	private javax.swing.JMenuItem miImportieren;
+	private javax.swing.JMenuItem miNummernImportieren;
 	private javax.swing.JMenuItem miKlassenliste;
 	private javax.swing.JButton mieteEntfernen;
 	private javax.swing.JButton mieteNeu;
@@ -2925,7 +2955,7 @@ public class SchliessfachView extends FrameView {
 	private int busyIconIndex = 0;
 	private JDialog aboutBox;
 	private JMenuItem hinweiseMenuItem;
-
+	
 	public void aktualisiereKlassenliste() {
 		if (em == null) {
 			return;
@@ -3283,7 +3313,8 @@ public class SchliessfachView extends FrameView {
 				.createQuery("SELECT s,v,SUM(z.betrag) FROM Schueler s LEFT JOIN s.vertraege v LEFT JOIN v.zahlungen z WHERE "
 						+ Zahlungsart.mietenQS("z.art")
 						+ " GROUP BY s,v ORDER BY s.klasse,s.nachName,s.vorName,v.id");
-		String inhalt = tabellenAnfang(new String[] { "Klasse", "Name", "Nr", "Beginn", "Mietkonto", "Ende" });
+		String inhalt = tabellenAnfang(new String[] { "Klasse", "Name", "Nr",
+				"Beginn", "Mietkonto", "Ende" });
 		Iterator<Object[]> zeile = q.getResultList().iterator();
 		Object[] o;
 		Schueler s;
@@ -3294,11 +3325,11 @@ public class SchliessfachView extends FrameView {
 			s = (Schueler) o[0];
 			v = (Vertrag) o[1];
 			geb = (Double) o[2];
-			if (geb == null || (geb != null
-					&& geb == 0.0))
+			if (geb == null || (geb != null && geb == 0.0))
 				continue;
 			if (v != null && geb != null) {
-				inhalt += tabellenZeile(new String[] { s.getKlasse(), 
+				inhalt += tabellenZeile(new String[] {
+						s.getKlasse(),
 						s.getNachName() + "," + s.getVorName(),
 						v.getId().toString(),
 						v.getBeginnJahr().toString(),
@@ -3306,7 +3337,7 @@ public class SchliessfachView extends FrameView {
 						v.getEndeJahr() == null ? "" : v.getEndeJahr()
 								.toString() });
 			} else {
-				inhalt += tabellenZeile(new String[] {s.getKlasse(), 
+				inhalt += tabellenZeile(new String[] { s.getKlasse(),
 						s.getNachName() + "," + s.getVorName(), "", "", "", "" });
 			}
 		}
@@ -3325,7 +3356,8 @@ public class SchliessfachView extends FrameView {
 				.createQuery("SELECT sl,sf,v,s FROM Schluessel sl INNER JOIN sl.schliessfach sf INNER JOIN sl.anVertrag v INNER JOIN  v.schueler s WHERE "
 						+ " sl.ausgegeben='TRUE' "
 						+ " ORDER BY sf.nr,sl.nr,s.nachName,s.vorName");
-		String inhalt = tabellenAnfang(new String[] { "Schließfach", "Schlüssel", "Vertrag", "Schüler", "Klasse" });
+		String inhalt = tabellenAnfang(new String[] { "Schließfach",
+				"Schlüssel", "Vertrag", "Schüler", "Klasse" });
 		Iterator<Object[]> zeile = q.getResultList().iterator();
 		Object[] o;
 		Schueler s;
@@ -3338,16 +3370,25 @@ public class SchliessfachView extends FrameView {
 			sf = (Schliessfach) o[1];
 			v = (Vertrag) o[2];
 			s = (Schueler) o[3];
-			inhalt += tabellenZeile(new String[] { sf.getNr().toString(), sl.getNr().toString(), 
-					v.getId().toString(),
-					s.getNachName() + "," + s.getVorName(),
-					s.getKlasse() });
-			
+			inhalt += tabellenZeile(new String[] { sf.getNr().toString(),
+					sl.getNr().toString(), v.getId().toString(),
+					s.getNachName() + "," + s.getVorName(), s.getKlasse() });
+
 		}
 		inhalt += tabellenEnde();
 		DruckVorschauDlg dlg = new DruckVorschauDlg(this.getFrame(), inhalt,
 				"Gesamtliste: Ausgegebene Schlüssel");
 		dlg.setLocationRelativeTo(this.getFrame());
 		dlg.setVisible(true);
+	}
+
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }
