@@ -524,10 +524,10 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 					// SIPROG generiert Schülernummern aus einer zweistelligen
 					// Jahrgangs- und einer maximal
 					// 4stelligen laufenden Nummer, die auch kürzer sein kann.
-					if (feld[0].length() < 6)
-						feld[0] = feld[0].substring(0, 2)
-								+ String.format("%04d",
-										Integer.parseInt(feld[0].substring(2)));
+					// if (feld[0].length() < 6)
+					// feld[0] = feld[0].substring(0, 2)
+					// + String.format("%04d",
+					// Integer.parseInt(feld[0].substring(2)));
 					nr = Long.parseLong(feld[0]);
 					if (schuelerMap.containsKey(nr)) {
 						boolean aenderung = false;
