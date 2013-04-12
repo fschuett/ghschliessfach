@@ -33,6 +33,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 import javax.swing.DefaultListModel;
 import javax.swing.JEditorPane;
@@ -2409,6 +2410,20 @@ public class SchliessfachView extends FrameView {
 				auswahlKlasse.setSelectedItem(schueler.getKlasse());
 				klassenListe.setSelectedValue(schueler.getNachName() + ","
 						+ schueler.getVorName(), true);
+			} catch (NonUniqueResultException ex) {
+				JOptionPane
+						.showMessageDialog(
+								this.getComponent(),
+								"Vorsicht: Für den Schüler "
+										+ name
+										+ " existieren mindestens "
+										+ "zwei Datensätze. Das sollte nicht passieren. Ich verwende den ersten davn.",
+								"Schülersuche", JOptionPane.ERROR_MESSAGE);
+				Schueler schueler = (Schueler) q.getResultList().iterator()
+						.next();
+				auswahlKlasse.setSelectedItem(schueler.getKlasse());
+				klassenListe.setSelectedValue(schueler.getNachName() + ","
+						+ schueler.getVorName(), true);
 			} catch (NoResultException ex) {
 				JOptionPane.showMessageDialog(this.getComponent(),
 						"Der Schüler " + name + " wurde nicht gefunden!",
@@ -2955,7 +2970,7 @@ public class SchliessfachView extends FrameView {
 	private int busyIconIndex = 0;
 	private JDialog aboutBox;
 	private JMenuItem hinweiseMenuItem;
-	
+
 	public void aktualisiereKlassenliste() {
 		if (em == null) {
 			return;

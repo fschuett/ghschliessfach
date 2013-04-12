@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,6 +46,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
 import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * 
@@ -128,43 +133,88 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 			}
 		});
 
+		JLabel lblZeichensatz = new JLabel("Zeichensatz:");
+		lblZeichensatz.setFont(new Font("Dialog", Font.PLAIN, 12));
+
+		zeichensatz = new JComboBox(Charset.availableCharsets().keySet()
+				.toArray());
+		zeichensatz.setFont(new Font("Dialog", Font.PLAIN, 12));
+		zeichensatz.setSelectedItem("windows-1252");
+
 		javax.swing.GroupLayout gl_jPanel1 = new javax.swing.GroupLayout(
 				jPanel1);
-		jPanel1.setLayout(gl_jPanel1);
-		gl_jPanel1.setHorizontalGroup(gl_jPanel1.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				javax.swing.GroupLayout.Alignment.TRAILING,
-				gl_jPanel1
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(dateiName,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 416,
-								Short.MAX_VALUE)
-						.addGap(18, 18, 18)
-						.addComponent(waehle,
-								javax.swing.GroupLayout.PREFERRED_SIZE, 120,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
+		gl_jPanel1
+				.setHorizontalGroup(gl_jPanel1
+						.createParallelGroup(Alignment.TRAILING)
+						.addGroup(
+								Alignment.LEADING,
+								gl_jPanel1
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_jPanel1
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_jPanel1
+																		.createSequentialGroup()
+																		.addComponent(
+																				lblZeichensatz,
+																				GroupLayout.PREFERRED_SIZE,
+																				81,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(2)
+																		.addComponent(
+																				zeichensatz,
+																				GroupLayout.PREFERRED_SIZE,
+																				156,
+																				GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																gl_jPanel1
+																		.createSequentialGroup()
+																		.addComponent(
+																				dateiName,
+																				GroupLayout.DEFAULT_SIZE,
+																				416,
+																				Short.MAX_VALUE)
+																		.addGap(18)
+																		.addComponent(
+																				waehle,
+																				GroupLayout.PREFERRED_SIZE,
+																				120,
+																				GroupLayout.PREFERRED_SIZE)))
+										.addContainerGap()));
 		gl_jPanel1
 				.setVerticalGroup(gl_jPanel1
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(
 								gl_jPanel1
 										.createSequentialGroup()
 										.addGroup(
 												gl_jPanel1
 														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
+																Alignment.BASELINE)
 														.addComponent(
 																dateiName,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE)
 														.addComponent(waehle))
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addPreferredGap(
+												ComponentPlacement.UNRELATED)
+										.addGroup(
+												gl_jPanel1
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(
+																lblZeichensatz)
+														.addComponent(
+																zeichensatz,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addContainerGap(32, Short.MAX_VALUE)));
+		jPanel1.setLayout(gl_jPanel1);
 
 		jPanel2.setName("jPanel2"); // NOI18N
 
@@ -293,73 +343,65 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
-		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.createParallelGroup(Alignment.LEADING)
 				.addGroup(
 						layout.createSequentialGroup()
 								.addContainerGap()
 								.addGroup(
 										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.LEADING)
-												.addComponent(
-														jPanel2,
-														javax.swing.GroupLayout.Alignment.TRAILING,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														Short.MAX_VALUE)
-												.addComponent(
-														jPanel4,
-														javax.swing.GroupLayout.Alignment.TRAILING,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														Short.MAX_VALUE)
+												Alignment.LEADING)
 												.addComponent(
 														jPanel3,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE,
 														Short.MAX_VALUE)
 												.addComponent(
 														jPanel1,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														Short.MAX_VALUE)
+												.addComponent(
+														jPanel4,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														Short.MAX_VALUE)
+												.addComponent(
+														jPanel2,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE,
 														Short.MAX_VALUE))
 								.addContainerGap()));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(
 						layout.createSequentialGroup()
 								.addContainerGap()
 								.addComponent(jPanel1,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										GroupLayout.PREFERRED_SIZE, 94,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(jPanel3,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
+										GroupLayout.DEFAULT_SIZE, 292,
 										Short.MAX_VALUE)
-								.addGap(18, 18, 18)
+								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(jPanel4,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(jPanel2,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addContainerGap()));
+										GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE).addGap(53)));
+		getContentPane().setLayout(layout);
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void waehleActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_waehleActionPerformed
 		JFileChooser importDatei = new JFileChooser();
-		importDatei.setFileFilter(new FileNameExtensionFilter("SDF-Dateien",
-				"sdf"));
+		importDatei.setFileFilter(new FileNameExtensionFilter("TXT-Dateien",
+				"txt"));
 		if (importDatei.showOpenDialog(SchliessfachApp.getApplication()
 				.getMainFrame()) == JFileChooser.APPROVE_OPTION) {
 			File f = importDatei.getSelectedFile();
@@ -479,6 +521,7 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 	private javax.swing.JButton jbHilfe;
 	private javax.swing.JTextArea protokoll;
 	private javax.swing.JButton waehle;
+	private javax.swing.JComboBox zeichensatz;
 
 	// End of variables declaration//GEN-END:variables
 
@@ -503,31 +546,29 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 			protokoll.append(">>>> Die Importdatei " + dateiName.getText()
 					+ " wird eingelesen <<<<\n");
 			BufferedReader leseImF = new BufferedReader(new InputStreamReader(
-					new FileInputStream(imf), "IBM850"));
+					new FileInputStream(imf),
+					(String) zeichensatz.getSelectedItem()));
 			Vector<Long> importNr = new Vector<Long>();
 			int zeile = 0;
 			String s;
 			Long nr = -1L;
 			int index;
 			// Dateiformat:
-			// "<Nummer>";"<Nachname>";"<Vorname>";"<Geburtsdatum>";"<Klasse>";"<Lehrer>"
+			// <Nummer>;<Nachname>;<Vorname>;<Geburtsdatum>;<Klasse>[;<Lehrer>]
 			// in jeder gültigen Zeile
 			while ((s = leseImF.readLine()) != null) {
 				zeile++;
 				String[] feld = s.split(";");
+				if (feld != null && feld.length == 5) {
+					// Kein Klassenlehrer!
+					feld = Arrays.copyOf(feld, 6);
+					feld[5] = "";
+				}
 				if (feld == null || feld.length != 6) {
 					continue;
 				}
-				// das letzte Feld muss repariert werden:
 				feld[feld.length - 1] = feld[feld.length - 1].trim();
 				try {
-					// SIPROG generiert Schülernummern aus einer zweistelligen
-					// Jahrgangs- und einer maximal
-					// 4stelligen laufenden Nummer, die auch kürzer sein kann.
-					// if (feld[0].length() < 6)
-					// feld[0] = feld[0].substring(0, 2)
-					// + String.format("%04d",
-					// Integer.parseInt(feld[0].substring(2)));
 					nr = Long.parseLong(feld[0]);
 					if (schuelerMap.containsKey(nr)) {
 						boolean aenderung = false;
