@@ -10,7 +10,7 @@
  */
 package schueler;
 
-import vertrag.Zahlungsart;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,47 +27,49 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
 import org.jdesktop.application.TaskEvent;
 import org.jdesktop.application.TaskListener;
+
 import schliessfach.SchliessfachApp;
 import schliessfach.SchliessfachView;
 import vertrag.Vertrag;
-import javax.swing.JButton;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.GroupLayout;
-import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import vertrag.Zahlungsart;
 
 /**
  * 
  * @author fschuett
  */
+@SuppressWarnings("serial")
 public class SchuelerImportDlg extends javax.swing.JDialog {
 
 	private EntityManager em;
-	private boolean testDurchgefuehrt;
 	private Map<Long, Schueler> schuelerMap;
 	private Vector<Long> bearbeitet;
 	private boolean importInArbeit;
 	private ResourceMap resourceMap;
+	private static final File STANDARDDIR = new File(
+			"G:\\School\\Export zu GHSchließfach");
 
 	/** Creates new form SchuelerImportDlg */
 	public SchuelerImportDlg(java.awt.Frame parent) {
 		super(parent, true);
 		em = SchliessfachApp.getApplication().em;
-		testDurchgefuehrt = false;
 		Query q = em
 				.createQuery("SELECT s.nr,s FROM Schueler s ORDER BY s.nr ASC");
 		schuelerMap = new HashMap<Long, Schueler>();
@@ -402,6 +404,7 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 		JFileChooser importDatei = new JFileChooser();
 		importDatei.setFileFilter(new FileNameExtensionFilter("TXT-Dateien",
 				"txt"));
+		importDatei.setCurrentDirectory(STANDARDDIR);
 		if (importDatei.showOpenDialog(SchliessfachApp.getApplication()
 				.getMainFrame()) == JFileChooser.APPROVE_OPTION) {
 			File f = importDatei.getSelectedFile();
