@@ -704,6 +704,7 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 				protokoll.append("Schüler [" + s.getNachName() + ","
 						+ s.getVorName() + "] wird gelöscht.\n");
 			} else {
+				s.setKlasse("gesperrt");
 				protokoll.append("-----> Schüler [" + s.getNachName() + ","
 						+ s.getVorName() + "] ist gesperrt! <------ \n");
 			}
