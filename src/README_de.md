@@ -36,6 +36,21 @@ Verlassen Sie ij: exit;
 
 Es ist ein Unterverzeichnis 'SchliessfachDB' mit der leeren Datenbank entstanden.
 
+Aktualisieren der Datenbank
+---------------------------
+Falls der Programmstart fehlschlägt, ist die Datenbankversion nicht aktuell.
+
+Starten Sie ij.sh: ./ij.sh
+ -> Es erscheint der Prompt von ij.
+ 
+Verbinden Sie die Datenbank durch den ij-Befehl: connect 'jdbc:derby:SchliessfachDB';
+ -> Fertigmeldung
+
+Erzeugen Sie die neuen Tabellen in der Datenbank durch den ij-Befehl: run 'SchliessfachDB_historie.sql';
+oder die Datei, die in der Programmfehlermeldung genannt worden ist.
+
+Verlassen Sie ij: exit;
+
 
 Programmstart
 -------------

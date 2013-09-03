@@ -1,0 +1,6 @@
+package historie;
+
+public enum Rubrik {
+
+	SCHUELER,VERTRAG,GEBUEHR,ZAHLUNG,SCHLIESSFACH,SCHLUESSEL,JAHR;
+}

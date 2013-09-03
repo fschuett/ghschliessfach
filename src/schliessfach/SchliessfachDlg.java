@@ -10,6 +10,9 @@
  */
 package schliessfach;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import java.util.Arrays;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -408,6 +411,7 @@ public class SchliessfachDlg extends javax.swing.JDialog {
         for (int i = ersteNummer; i < ersteNummer + anzahl; i++) {
             neu = new Schliessfach(new Long(i), neuerSchrank, hStandort.getText(), Position.getStandardPosition(i));
             em.persist(neu);
+            Historie.anhaengen(Rubrik.SCHLIESSFACH, neu.getNr().toString(), "hinzugefügt: "+neu.toString());
             if (hAutoSchluessel.isSelected()) {
                 Schluessel s1 = new Schluessel(1L, neu, false, null, null), s2 = new Schluessel(2L, neu, false, null, null);
                 neu.getSchluessel().add(s1);

@@ -10,6 +10,9 @@
  */
 package finanzen;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import java.util.EnumSet;
 import java.util.List;
 
@@ -279,6 +282,7 @@ public class ZahlungDlg extends javax.swing.JDialog {
         em.getTransaction().begin();
         vertrag.einzahlen(neu);
         em.persist(neu);
+        Historie.anhaengen(Rubrik.ZAHLUNG, neu.getVertrag().toString(), "hinzugefügt: "+neu.toString());
         em.getTransaction().commit();
         dispose();
     }//GEN-LAST:event_hinzufuegenActionPerformed

@@ -9,6 +9,8 @@
     <class>schueler.Schueler</class>
     <class>vertrag.Vertrag</class>
     <class>vertrag.Zahlung</class>
+    <class>historie.Historie</class>
+    <class>schliessfach.Konstanten</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:SchliessfachDB"/>
       <property name="javax.persistence.jdbc.password" value=""/>

@@ -11,6 +11,9 @@
 
 package schueler;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
@@ -230,6 +233,7 @@ public class SchuelereingabeDlg extends javax.swing.JDialog {
             }
             em.getTransaction().begin();
             em.persist(s);
+            Historie.anhaengen(Rubrik.SCHUELER, s.getNr().toString(), "hinzugefügt: "+s.toString());
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(this.getParent(), "Der Schüler "+s.getNachName()+","+s.getVorName()+"\nwurde hinzugefügt.", "Schüler hinzufügen", JOptionPane.INFORMATION_MESSAGE);
             dispose();

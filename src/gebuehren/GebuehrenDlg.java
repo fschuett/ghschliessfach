@@ -10,6 +10,9 @@
  */
 package gebuehren;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -352,6 +355,7 @@ public class GebuehrenDlg extends javax.swing.JDialog {
 					((Number) neuerWert.getValue()).doubleValue());
 			em.getTransaction().begin();
 			em.persist(g);
+			Historie.anhaengen(Rubrik.GEBUEHR,g.getArt().toString(),"geändert: "+g.toString());
 			em.getTransaction().commit();
 			aktualisiereGebuehrenliste();
 		}

@@ -25,6 +25,7 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaSizeName;
 import org.jdesktop.application.Application;
+import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
 import vertrag.Zahlungsart;
 
@@ -86,6 +87,18 @@ public class SchliessfachApp extends SingleFrameApplication {
             e.printStackTrace();
             System.exit(1);
         }
+        String dbversion = getDBVersion();
+        ResourceMap resourceMap = getApplication().getInstance(schliessfach.SchliessfachApp.class).getContext().getResourceMap(SchliessfachAboutBox.class);
+        String dbversionrequired = resourceMap.getString("dbversion");
+        if(!dbversion.equals(dbversionrequired)){
+        	System.err.println("Schliessfach-Programm\n"
+        			+"===================\n"
+        			+"Das Schliessfach-Programm kann nicht weiter ausgeführt werden."
+        			+"Gefundene Datenbank-Version: "+dbversion+"\n"
+        			+"Erwartete Datenbank-Version: "+dbversionrequired+"\n\n"
+        			+"Bitte aktualisieren Sie die Datenbank gemäß den README-Dateien.\n");
+        	System.exit(2);
+        }
         aktualisiereGebuehren(heute.get(Calendar.YEAR));
         show(new SchliessfachView(this));
     }
@@ -139,6 +152,17 @@ public class SchliessfachApp extends SingleFrameApplication {
         launch(SchliessfachApp.class, args);
     }
 
+    public String getDBVersion(){
+    	if(em == null)
+    		return "";
+    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='DBVERSION'");
+    	Konstanten k = (Konstanten)q.getSingleResult();
+    	if(k != null)
+    		return k.getInhalt();
+    	else
+    		return "";
+    }
+    
     public void aktualisiereGebuehren(int jahr) {
         aktuelleGebuehren.clear();
         for (Zahlungsart z : EnumSet.allOf(Zahlungsart.class)) {

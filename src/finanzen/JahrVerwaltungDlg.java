@@ -11,6 +11,9 @@
 
 package finanzen;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import java.util.Calendar;
 import java.util.Iterator;
 
@@ -186,6 +189,7 @@ public class JahrVerwaltungDlg extends javax.swing.JDialog {
             double betrag;
             em.getTransaction().begin();
             em.persist(j);
+            Historie.anhaengen(Rubrik.JAHR, j.getJahr().toString(), "hinzugefügt: "+j.toString());
             q = em.createQuery("SELECT v FROM Vertrag v WHERE v.beginnJahr <= "+j.getJahr()+" AND v.endeJahr IS NULL OR "+j.getJahr()+" BETWEEN v.beginnJahr AND v.endeJahr");
             Iterator<Vertrag> vertragIt = q.getResultList().iterator();
             while(vertragIt.hasNext()){
@@ -200,6 +204,7 @@ public class JahrVerwaltungDlg extends javax.swing.JDialog {
                     z = new Zahlung(v,Zahlungsart.Miete,j.getJahr().intValue(),betrag);                    
                 }
                 em.persist(z);
+                Historie.anhaengen(Rubrik.ZAHLUNG, z.getVertrag().toString(), "hinzugefügt: "+z.toString());
             }
             em.getTransaction().commit();
             jahrListe.add(j.getJahr());

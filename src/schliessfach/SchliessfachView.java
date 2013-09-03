@@ -9,6 +9,9 @@ import finanzen.Jahr;
 import finanzen.JahrVerwaltungDlg;
 import finanzen.ZahlungDlg;
 import gebuehren.GebuehrenDlg;
+import historie.Historie;
+import historie.Rubrik;
+
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -132,6 +135,9 @@ public class SchliessfachView extends FrameView {
 									em.getTransaction().begin();
 									em.persist(z);
 									z.setVertrag(v);
+									Historie.anhaengen(Rubrik.ZAHLUNG, z
+											.getVertrag().toString(),
+											"hinzugefügt: " + z.toString());
 									v.einzahlen(z);
 									em.getTransaction().commit();
 									schluesselTabelle.getModel().setValueAt(
@@ -189,6 +195,9 @@ public class SchliessfachView extends FrameView {
 									em.getTransaction().begin();
 									em.persist(z);
 									z.setVertrag(v);
+									Historie.anhaengen(Rubrik.ZAHLUNG, z
+											.getVertrag().toString(),
+											"hinzugefügt: " + z.toString());
 									v.einzahlen(z);
 									em.getTransaction().commit();
 									aktualisiereBetraege();
@@ -2465,6 +2474,9 @@ public class SchliessfachView extends FrameView {
 		Vertrag neu = new Vertrag(aktuellerSchueler, jahr.intValue(), false);
 		em.getTransaction().begin();
 		em.persist(neu);
+		Historie.anhaengen(Rubrik.VERTRAG,
+				neu.getSchueler().getNr().toString(),
+				"hinzugefügt: " + neu.toString());
 		aktuellerSchueler.getVertraege().add(neu);
 		Zahlung z = new Zahlung(neu, jahr.intValue(),
 				-SchliessfachApp.getApplication().aktuelleGebuehren
@@ -2641,6 +2653,8 @@ public class SchliessfachView extends FrameView {
 						-gebuehr);
 				v.getZahlungen().add(z);
 				em.persist(z);
+				Historie.anhaengen(Rubrik.ZAHLUNG, z.getVertrag().toString(),
+						"hinzugefügt: " + z.toString());
 			}
 			schluessel.getSchliessfach().getSchluessel().remove(schluessel);
 			em.remove(schluessel);

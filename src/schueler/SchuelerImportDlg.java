@@ -10,6 +10,9 @@
  */
 package schueler;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
@@ -721,6 +724,8 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 			Schueler s = new Schueler(Long.parseLong(f[0]), SchuelerStatus.NEU,
 					f[1], f[2], f[3], f[4], f[5]);
 			em.persist(s);
+			Historie.anhaengen(Rubrik.SCHUELER, s.getNr().toString(),
+					"hinzugefügt: " + s.toString());
 			protokoll.append("Schüler [" + f[1] + "," + f[2] + " Klasse["
 					+ f[4] + " " + f[5] + "]] wird hinzugefügt.\n");
 
