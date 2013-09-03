@@ -67,6 +67,8 @@ import javax.swing.JSeparator;
 import javax.swing.JMenuItem;
 import javax.swing.AbstractAction;
 
+import static factories.TabellenFactory.*;
+
 /**
  * The application's main frame.
  */
@@ -3193,32 +3195,6 @@ public class SchliessfachView extends FrameView {
 			app.druckDienst = dlg.getDruckDienst();
 			app.druckAttribut = dlg.getDruckAttribut();
 		}
-	}
-
-	private String tabellenAnfang(String[] ueberschrift) {
-		return "<html><body><div style=\"font-size:95%\">\n"
-				+ "<table rules=\"rows\" border=\"1\">\n"
-				+ tabellenKopf(ueberschrift);
-	}
-
-	private String tabellenKopf(String[] ueberschrift) {
-		String result = "<tr align=\"left\">";
-		for (String s : ueberschrift) {
-			result += "<th align=\"left\">" + s + "</th>";
-		}
-		return result;
-	}
-
-	private String tabellenZeile(String[] zeile) {
-		String result = "<tr align=\"left\">";
-		for (String s : zeile) {
-			result += "<td align=\"left\">" + s + "</td>";
-		}
-		return result + "</tr>\n";
-	}
-
-	private String tabellenEnde() {
-		return "</table>\n</div></body></html>";
 	}
 
 	public void listeKlasse(boolean mieten) {

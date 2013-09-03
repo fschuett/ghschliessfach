@@ -25,5 +25,6 @@
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/ij.sh" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/README_de.md" todir="/home/fschuett/prog/java/eclipse/ghschliessfach/"/>
         <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/SchliessfachDB.sql" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
+        <copy file="/home/fschuett/prog/java/eclipse/ghschliessfach/src/SchliessfachDB_1.0-2.0.sql" todir="/home/fschuett/prog/java/eclipse/ghschliessfach"/>
     </target>
 </project>

@@ -14,6 +14,7 @@ import historie.Historie;
 import historie.Rubrik;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
 
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
@@ -49,10 +51,15 @@ import org.jdesktop.application.Task;
 import org.jdesktop.application.TaskEvent;
 import org.jdesktop.application.TaskListener;
 
+import drucken.DruckVorschauDlg;
+
 import schliessfach.SchliessfachApp;
 import schliessfach.SchliessfachView;
 import vertrag.Vertrag;
 import vertrag.Zahlungsart;
+import javax.swing.JButton;
+
+import static factories.TabellenFactory.*;
 
 /**
  * 
@@ -249,13 +256,26 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 				jbHilfeActionPerformed(evt);
 			}
 		});
+
+		JButton jbProtokollDrucken = new JButton("Protokoll drucken");
+		jbProtokollDrucken.setFont(resourceMap.getFont("jbSchliessen.font"));
+		jbProtokollDrucken
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						jbProtokollDruckenActionPerformed(evt);
+					}
+				});
+
 		javax.swing.GroupLayout gl_jPanel2 = new javax.swing.GroupLayout(
 				jPanel2);
 		gl_jPanel2.setHorizontalGroup(gl_jPanel2.createParallelGroup(
 				Alignment.TRAILING).addGroup(
 				gl_jPanel2
 						.createSequentialGroup()
-						.addContainerGap(265, Short.MAX_VALUE)
+						.addContainerGap()
+						.addComponent(jbProtokollDrucken)
+						.addPreferredGap(ComponentPlacement.RELATED, 156,
+								Short.MAX_VALUE)
 						.addComponent(jbHilfe, GroupLayout.PREFERRED_SIZE, 84,
 								GroupLayout.PREFERRED_SIZE).addGap(18)
 						.addComponent(importiere).addGap(18)
@@ -273,7 +293,9 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 														Alignment.BASELINE)
 												.addComponent(importiere)
 												.addComponent(jbSchliessen)
-												.addComponent(jbHilfe))
+												.addComponent(jbHilfe)
+												.addComponent(
+														jbProtokollDrucken))
 								.addContainerGap()));
 		jPanel2.setLayout(gl_jPanel2);
 
@@ -491,6 +513,26 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 	private void jbHilfeActionPerformed(java.awt.event.ActionEvent evt) {
 		javax.swing.JOptionPane.showMessageDialog(this,
 				resourceMap.getString("jbHilfe.text"));
+	}
+
+	private void jbProtokollDruckenActionPerformed(ActionEvent evt) {
+		String inhalt = tabellenAnfang("Importprotokoll");
+		try {
+			for (int i = 0; i < protokoll.getLineCount(); i++) {
+				inhalt += tabellenZeile(protokoll.getText(
+						protokoll.getLineStartOffset(i),
+						protokoll.getLineEndOffset(i)
+								- protokoll.getLineEndOffset(i)));
+			}
+		} catch (BadLocationException e) {
+			inhalt += tabellenZeile(e.getLocalizedMessage());
+		}
+		inhalt += tabellenEnde();
+		DruckVorschauDlg dlg = new DruckVorschauDlg(SchliessfachApp
+				.getApplication().getMainFrame(), inhalt, "Importprotokoll ");
+		dlg.setLocationRelativeTo(SchliessfachApp.getApplication()
+				.getMainFrame());
+		dlg.setVisible(true);
 	}
 
 	/**

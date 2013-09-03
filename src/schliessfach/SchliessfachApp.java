@@ -6,6 +6,7 @@ package schliessfach;
 import einstellungen.PrefObjs;
 import gebuehren.Gebuehr;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class SchliessfachApp extends SingleFrameApplication {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SchliessfachApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        em = factory.createEntityManager();
+       	em = factory.createEntityManager();
         heute = Calendar.getInstance();
         try {
             if (TEST) {
