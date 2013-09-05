@@ -1,28 +1,25 @@
 package historie;
 
-import java.awt.Container;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ButtonGroup;
 
 import schliessfach.SchliessfachApp;
 
 public class HistorieDlg extends JDialog {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private JList inhalt;
 	private final ButtonGroup auswahl = new ButtonGroup();
 	private final ButtonGroup sortierung = new ButtonGroup();
@@ -118,6 +115,7 @@ public class HistorieDlg extends JDialog {
 
 		scrollPane.setViewportView(inhalt);
 
+		setSize(600, 400);
 	}
 
 	private String historieRubrik() {
