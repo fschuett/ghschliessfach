@@ -10,6 +10,7 @@ import finanzen.JahrVerwaltungDlg;
 import finanzen.ZahlungDlg;
 import gebuehren.GebuehrenDlg;
 import historie.Historie;
+import historie.HistorieDlg;
 import historie.Rubrik;
 
 import org.jdesktop.application.Action;
@@ -2133,6 +2134,15 @@ public class SchliessfachView extends FrameView {
 				.getInstance(schliessfach.SchliessfachApp.class).getContext()
 				.getActionMap(SchliessfachView.class, this);
 
+		JSeparator separator_1 = new JSeparator();
+		dateiMenu.add(separator_1);
+
+		miHistorie = new JMenuItem(actionMap.get("historie"));
+		dateiMenu.add(miHistorie);
+
+		JSeparator separator_2 = new JSeparator();
+		dateiMenu.add(separator_2);
+
 		miDrucker.setAction(actionMap.get("druckerEinstellen")); // NOI18N
 		miDrucker.setText(resourceMap.getString("miDrucker.text")); // NOI18N
 		miDrucker.setName("miDrucker"); // NOI18N
@@ -2146,6 +2156,9 @@ public class SchliessfachView extends FrameView {
 				exitMenuItemActionPerformed(evt);
 			}
 		});
+
+		JSeparator separator_3 = new JSeparator();
+		dateiMenu.add(separator_3);
 		dateiMenu.add(exitMenuItem);
 
 		menuBar.add(dateiMenu);
@@ -2986,6 +2999,7 @@ public class SchliessfachView extends FrameView {
 	private int busyIconIndex = 0;
 	private JDialog aboutBox;
 	private JMenuItem hinweiseMenuItem;
+	private JMenuItem miHistorie;
 
 	public void aktualisiereKlassenliste() {
 		if (em == null) {
@@ -3195,6 +3209,13 @@ public class SchliessfachView extends FrameView {
 			app.druckDienst = dlg.getDruckDienst();
 			app.druckAttribut = dlg.getDruckAttribut();
 		}
+	}
+
+	@Action
+	public void historie() {
+		HistorieDlg dlg = new HistorieDlg(this.getFrame());
+		dlg.setLocationRelativeTo(this.getFrame());
+		dlg.setVisible(true);
 	}
 
 	public void listeKlasse(boolean mieten) {
