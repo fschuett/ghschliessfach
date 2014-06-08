@@ -10,6 +10,9 @@
  */
 package schliessfach.dialoge;
 
+import historie.Historie;
+import historie.Rubrik;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -269,6 +272,11 @@ public class SchliessfachAuswahlDlg extends javax.swing.JDialog {
                 if(s != null){
                     vertrag.setSchliessfach(s);
                     s.setVertrag(vertrag);
+            		Historie.anhaengen(Rubrik.VERTRAG, vertrag.getSchueler().getNr()
+            				.toString(), "Schliessfach zuordnen: null -> " + s.toString());
+            		Historie.anhaengen(Rubrik.SCHLIESSFACH, s.getNr().toString(),
+            				"Vertrag zuordnen: null -> " + vertrag.toString());
+
                 }
             }
         }

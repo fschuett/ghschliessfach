@@ -37,6 +37,10 @@ public class HistorieDlg extends JDialog {
 		super(parent);
 		em = SchliessfachApp.getApplication().em;
 		inhalt = new JList();
+		JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+		scrollPane.setViewportView(inhalt);
 		aktualisiereInhalt();
 
 		JPanel auswahlPanel = new JPanel();
@@ -110,12 +114,7 @@ public class HistorieDlg extends JDialog {
 			}
 		});
 
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-		scrollPane.setViewportView(inhalt);
-
-		setSize(600, 400);
+		setSize(800, 400);
 	}
 
 	private String historieRubrik() {

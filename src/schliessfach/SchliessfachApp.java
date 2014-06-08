@@ -25,6 +25,8 @@ import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaSizeName;
+import javax.swing.JOptionPane;
+
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -92,7 +94,7 @@ public class SchliessfachApp extends SingleFrameApplication {
         ResourceMap resourceMap = getApplication().getInstance(schliessfach.SchliessfachApp.class).getContext().getResourceMap(SchliessfachAboutBox.class);
         String dbversionrequired = resourceMap.getString("dbversion");
         if(!dbversion.equals(dbversionrequired)){
-        	System.err.println("Schliessfach-Programm\n"
+        	JOptionPane.showMessageDialog(null,"Schliessfach-Programm\n"
         			+"===================\n"
         			+"Das Schliessfach-Programm kann nicht weiter ausgeführt werden."
         			+"Gefundene Datenbank-Version: "+dbversion+"\n"

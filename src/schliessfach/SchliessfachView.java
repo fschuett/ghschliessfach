@@ -2589,6 +2589,8 @@ public class SchliessfachView extends FrameView {
 				vertrag.getSchueler().getVertraege().remove(vertrag);
 			}
 			em.remove(vertrag);
+			Historie.anhaengen(Rubrik.VERTRAG, vertrag.getSchueler().getNr()
+					.toString(), "Vertrag entfernen: " + vertrag.toString());
 			em.getTransaction().commit();
 		}
 		aktualisiereSchuelerDetails();
@@ -2875,7 +2877,12 @@ public class SchliessfachView extends FrameView {
 		Schliessfach s = vertrag.getSchliessfach();
 		em.getTransaction().begin();
 		vertrag.setSchliessfach(null);
+		Historie.anhaengen(Rubrik.VERTRAG, vertrag.getSchueler().getNr()
+				.toString(), "Schliessfach freigeben: " + s.toString()
+				+ " -> null");
 		s.setVertrag(null);
+		Historie.anhaengen(Rubrik.SCHLIESSFACH, s.getNr().toString(),
+				"Vertrag freigeben: " + vertrag.toString() + " -> null");
 		em.getTransaction().commit();
 		aktualisiereFächer();
 		aktualisiereVertragliste();
