@@ -9,6 +9,7 @@ import finanzen.Jahr;
 import finanzen.JahrVerwaltungDlg;
 import finanzen.ZahlungDlg;
 import gebuehren.GebuehrenDlg;
+import hilfe.HilfeDlg;
 import historie.Historie;
 import historie.HistorieDlg;
 import historie.Rubrik;
@@ -36,6 +37,7 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
@@ -53,7 +55,9 @@ import javax.swing.MutableComboBoxModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+
 import org.jdesktop.beansbinding.Binding.SyncFailure;
+
 import schliessfach.dialoge.SchliessfachAuswahlDlg;
 import schliessfach.dialoge.SuchDialog;
 import schueler.Schueler;
@@ -64,6 +68,7 @@ import vertrag.Vertrag;
 import vertrag.VertragDlg;
 import vertrag.Zahlung;
 import vertrag.Zahlungsart;
+
 import javax.swing.JSeparator;
 import javax.swing.JMenuItem;
 import javax.swing.AbstractAction;
@@ -301,21 +306,12 @@ public class SchliessfachView extends FrameView {
 	}
 
 	public void showHinweiseBox() {
-		try {
-			Scanner in = new Scanner(new File("Hinweise.txt"));
-			String s = in.nextLine() + "\n";
-			while (in.hasNext())
-				s = s + in.nextLine() + "\n";
-			JTextArea inhalt = new JTextArea(s, 20, 60);
-			inhalt.setEditable(false);
-			JScrollPane scroller = new JScrollPane(inhalt,
-					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			javax.swing.JOptionPane.showMessageDialog(SchliessfachApp
-					.getApplication().getMainFrame(), scroller);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (hinweiseBox == null) {
+			JFrame mainFrame = SchliessfachApp.getApplication().getMainFrame();
+			hinweiseBox = new HilfeDlg(mainFrame);
+			hinweiseBox.setLocationRelativeTo(mainFrame);
 		}
+		hinweiseBox.setVisible(true);
 	}
 
 	/**
@@ -1736,7 +1732,7 @@ public class SchliessfachView extends FrameView {
 				.getColumn(0)
 				.setHeaderValue(
 						resourceMap
-								.getString("kautionenTabelle.columnModel.title4")); // NOI18N
+								.getString("kautionenTabelle.columnModel.title0")); // NOI18N
 		kautionenTabelle.getColumnModel().getColumn(1).setResizable(false);
 		kautionenTabelle.getColumnModel().getColumn(1).setPreferredWidth(30);
 		kautionenTabelle
@@ -1858,7 +1854,7 @@ public class SchliessfachView extends FrameView {
 				.getColumn(0)
 				.setHeaderValue(
 						resourceMap
-								.getString("mietenTabelle.columnModel.title5")); // NOI18N
+								.getString("mietenTabelle.columnModel.title0")); // NOI18N
 		mietenTabelle.getColumnModel().getColumn(1).setResizable(false);
 		mietenTabelle.getColumnModel().getColumn(1).setPreferredWidth(30);
 		mietenTabelle
@@ -2489,9 +2485,6 @@ public class SchliessfachView extends FrameView {
 		Vertrag neu = new Vertrag(aktuellerSchueler, jahr.intValue(), false);
 		em.getTransaction().begin();
 		em.persist(neu);
-		Historie.anhaengen(Rubrik.VERTRAG,
-				neu.getSchueler().getNr().toString(),
-				"hinzugefügt: " + neu.toString());
 		aktuellerSchueler.getVertraege().add(neu);
 		Zahlung z = new Zahlung(neu, jahr.intValue(),
 				-SchliessfachApp.getApplication().aktuelleGebuehren
@@ -2499,6 +2492,9 @@ public class SchliessfachView extends FrameView {
 		em.persist(z);
 		neu.getZahlungen().add(z);
 		em.getTransaction().commit();
+		Historie.anhaengen(Rubrik.VERTRAG,
+				neu.getSchueler().getNr().toString(),
+				"hinzugefügt: " + neu.toString());
 		aktualisiereVertragliste();
 		aktualisiereBetraege();
 		aktualisiereMietenliste();
@@ -3005,6 +3001,7 @@ public class SchliessfachView extends FrameView {
 	private final Icon[] busyIcons = new Icon[15];
 	private int busyIconIndex = 0;
 	private JDialog aboutBox;
+	private HilfeDlg hinweiseBox;
 	private JMenuItem hinweiseMenuItem;
 	private JMenuItem miHistorie;
 

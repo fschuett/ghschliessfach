@@ -11,6 +11,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/beansbinding-1.2.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Derby"/>
+	<classpathentry kind="lib" path="lib/derby.jar"/>
+	<classpathentry kind="lib" path="lib/derbyLocale_de_DE.jar"/>
+	<classpathentry kind="lib" path="lib/derbytools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

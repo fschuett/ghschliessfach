@@ -1,10 +1,2 @@
-  * Schlüsselhistorie - Protokolltabelle mit Texteinträgen und Schlüsselwort bilden und auswerten.
-  + Klasse für Gesperrte Benutzer - zu löschende Benutzer mit offenen Verträgen sollen in eine extra Klasse übertragen werden
-  + Ausdruck der Protokolldatei - Taste zum Drucken des Protokolls nach dem Import
-  
   - Änderungen, Löschungen in die Protokolldatei übernehmen
-  - Vertrag hat in Protokolldatei beim Anlegen die ID null
- 
- FIXME:
-  - Beim Erstellen eines neuen Jahres wird für geschlossene Verträge eine Schlüsselverlust-Gebühr eingefügt.
    
