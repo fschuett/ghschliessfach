@@ -80,7 +80,18 @@ public class SchliessfachApp extends SingleFrameApplication {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SchliessfachApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-       	em = factory.createEntityManager();
+        try {
+        	em = factory.createEntityManager();
+        } catch (Exception e) {
+        	/* Die Datenbank wurde nicht gefunden -> Abbruch */
+            Logger.getLogger(SchliessfachApp.class.getName()).log(Level.SEVERE, null, e);
+        	JOptionPane.showMessageDialog(null, 
+        			"<html><p>Die Datenbank kann nicht im Verzeichnis SchliessfachDB gefunden werden.<br>"
+        			+ "Das Programm GHSchliessfach wird beendet.</p>"
+        			+ "<p><em>Hinweise zur Erzeugung der Datenbank finden Sie in der Datei README_de.md.</em></p></html>", 
+        			"GHSchliessfach", JOptionPane.ERROR_MESSAGE);
+        	System.exit(2);
+        }
         heute = Calendar.getInstance();
         try {
             if (TEST) {
