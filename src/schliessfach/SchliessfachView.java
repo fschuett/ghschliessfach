@@ -74,6 +74,11 @@ import javax.swing.JMenuItem;
 import javax.swing.AbstractAction;
 
 import static factories.TabellenFactory.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.JLabel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
 
 /**
  * The application's main frame.
@@ -1098,22 +1103,22 @@ public class SchliessfachView extends FrameView {
 		columnBinding = jTableBinding
 				.addColumnBinding(org.jdesktop.beansbinding.ELProperty
 						.create("${beginnJahr}"));
-		columnBinding.setColumnName("Beginn Jahr");
+		columnBinding.setColumnName("Beginn");
 		columnBinding.setColumnClass(Integer.class);
 		columnBinding = jTableBinding
 				.addColumnBinding(org.jdesktop.beansbinding.ELProperty
-						.create("${beginnSommer}"));
-		columnBinding.setColumnName("Beginn Sommer");
+						.create("${beginnMitte}"));
+		columnBinding.setColumnName("2. Hj.");
 		columnBinding.setColumnClass(Boolean.class);
 		columnBinding = jTableBinding
 				.addColumnBinding(org.jdesktop.beansbinding.ELProperty
 						.create("${endeJahr}"));
-		columnBinding.setColumnName("Ende Jahr");
+		columnBinding.setColumnName("Ende");
 		columnBinding.setColumnClass(Integer.class);
 		columnBinding = jTableBinding
 				.addColumnBinding(org.jdesktop.beansbinding.ELProperty
-						.create("${endeSommer}"));
-		columnBinding.setColumnName("Ende Sommer");
+						.create("${endeMitte}"));
+		columnBinding.setColumnName("1. Hj.");
 		columnBinding.setColumnClass(Boolean.class);
 		bindingGroup.addBinding(jTableBinding);
 		jTableBinding.bind();
@@ -1169,26 +1174,30 @@ public class SchliessfachView extends FrameView {
 				.setHeaderValue(
 						resourceMap
 								.getString("vertragTabelle.columnModel.title5")); // NOI18N
+		
+		JLabel lblWichtigBeginnUnd = new JLabel("Wichtig: Beginn und Ende beziehen sich immer auf Schuljahre!");
+		lblWichtigBeginnUnd.setForeground(Color.RED);
 
 		javax.swing.GroupLayout gl_jPanel5 = new javax.swing.GroupLayout(
 				jPanel5);
+		gl_jPanel5.setHorizontalGroup(
+			gl_jPanel5.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_jPanel5.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_jPanel5.createParallelGroup(Alignment.TRAILING)
+						.addComponent(jScrollPane2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+						.addComponent(lblWichtigBeginnUnd, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_jPanel5.setVerticalGroup(
+			gl_jPanel5.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_jPanel5.createSequentialGroup()
+					.addComponent(lblWichtigBeginnUnd)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		jPanel5.setLayout(gl_jPanel5);
-		gl_jPanel5.setHorizontalGroup(gl_jPanel5.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				gl_jPanel5
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jScrollPane2,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 495,
-								Short.MAX_VALUE).addContainerGap()));
-		gl_jPanel5.setVerticalGroup(gl_jPanel5.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				gl_jPanel5
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jScrollPane2,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 94,
-								Short.MAX_VALUE).addContainerGap()));
 
 		jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
 				resourceMap.getString("jPanel7.border.title"),

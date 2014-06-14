@@ -56,12 +56,12 @@ public class VertragDlg extends javax.swing.JDialog {
 		jLabel3 = new javax.swing.JLabel();
 		jtBeginnJahr = new javax.swing.JFormattedTextField(
 				vertrag.getBeginnJahr());
-		cbBeginnSommer = new javax.swing.JCheckBox();
-		cbBeginnSommer.setSelected(vertrag.isBeginnSommer());
+		cbBeginnMitte = new javax.swing.JCheckBox();
+		cbBeginnMitte.setSelected(vertrag.isBeginnMitte());
 		jLabel4 = new javax.swing.JLabel();
 		jtEndeJahr = new javax.swing.JFormattedTextField(vertrag.getEndeJahr());
-		cbEndeSommer = new javax.swing.JCheckBox();
-		cbEndeSommer.setSelected(vertrag.isEndeSommer());
+		cbEndeMitte = new javax.swing.JCheckBox();
+		cbEndeMitte.setSelected(vertrag.isEndeMitte());
 		jPanel1 = new javax.swing.JPanel();
 		fachFreigeben = new javax.swing.JButton();
 		fachZuordnen = new javax.swing.JButton();
@@ -90,7 +90,7 @@ public class VertragDlg extends javax.swing.JDialog {
 		jtSchueler.setEditable(false);
 		jtSchueler.setName("jtSchueler"); // NOI18N
 
-		jLabel3.setText("Beginn im Jahr:");
+		jLabel3.setText("Beginn im Schuljahr:");
 		jLabel3.setName("jLabel3"); // NOI18N
 
 		jtBeginnJahr.setColumns(10);
@@ -107,16 +107,16 @@ public class VertragDlg extends javax.swing.JDialog {
 					}
 				});
 
-		cbBeginnSommer.setText("Beginn im Sommer");
-		cbBeginnSommer.setName("cbBeginnSommer"); // NOI18N
-		cbBeginnSommer
+		cbBeginnMitte.setText("Beginn Mitte (2. Hj)");
+		cbBeginnMitte.setName("cbBeginnMitte"); // NOI18N
+		cbBeginnMitte
 				.addChangeListener(new javax.swing.event.ChangeListener() {
 					public void stateChanged(javax.swing.event.ChangeEvent evt) {
-						cbBeginnSommerStateChanged(evt);
+						cbBeginnMitteStateChanged(evt);
 					}
 				});
 
-		jLabel4.setText("Ende im Jahr:");
+		jLabel4.setText("Ende im Schuljahr:");
 		jLabel4.setName("jLabel4"); // NOI18N
 
 		jtEndeJahr.setColumns(10);
@@ -133,11 +133,11 @@ public class VertragDlg extends javax.swing.JDialog {
 					}
 				});
 
-		cbEndeSommer.setText("Ende im Sommer");
-		cbEndeSommer.setName("cbEndeSommer"); // NOI18N
-		cbEndeSommer.addChangeListener(new javax.swing.event.ChangeListener() {
+		cbEndeMitte.setText("Ende Mitte (1. Hj.)");
+		cbEndeMitte.setName("cbEndeMitte"); // NOI18N
+		cbEndeMitte.addChangeListener(new javax.swing.event.ChangeListener() {
 			public void stateChanged(javax.swing.event.ChangeEvent evt) {
-				cbEndeSommerStateChanged(evt);
+				cbEndeMitteStateChanged(evt);
 			}
 		});
 
@@ -307,12 +307,12 @@ public class VertragDlg extends javax.swing.JDialog {
 																																		layout.createParallelGroup(
 																																				javax.swing.GroupLayout.Alignment.LEADING)
 																																				.addComponent(
-																																						cbBeginnSommer,
+																																						cbBeginnMitte,
 																																						javax.swing.GroupLayout.PREFERRED_SIZE,
 																																						194,
 																																						javax.swing.GroupLayout.PREFERRED_SIZE)
 																																				.addComponent(
-																																						cbEndeSommer,
+																																						cbEndeMitte,
 																																						javax.swing.GroupLayout.PREFERRED_SIZE,
 																																						183,
 																																						javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -376,7 +376,7 @@ public class VertragDlg extends javax.swing.JDialog {
 														javax.swing.GroupLayout.PREFERRED_SIZE,
 														javax.swing.GroupLayout.DEFAULT_SIZE,
 														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(cbBeginnSommer))
+												.addComponent(cbBeginnMitte))
 								.addGap(18, 18, 18)
 								.addGroup(
 										layout.createParallelGroup(
@@ -394,7 +394,7 @@ public class VertragDlg extends javax.swing.JDialog {
 																						javax.swing.GroupLayout.DEFAULT_SIZE,
 																						javax.swing.GroupLayout.PREFERRED_SIZE)
 																				.addComponent(
-																						cbEndeSommer))
+																						cbEndeMitte))
 																.addPreferredGap(
 																		javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 																.addGroup(
@@ -438,9 +438,9 @@ public class VertragDlg extends javax.swing.JDialog {
 		}
 	}// GEN-LAST:event_jtBeginnJahrPropertyChange
 
-	private void cbBeginnSommerStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_cbBeginnSommerStateChanged
-		vertrag.setBeginnSommer(!vertrag.isBeginnSommer());
-	}// GEN-LAST:event_cbBeginnSommerStateChanged
+	private void cbBeginnMitteStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_cbBeginnMitteStateChanged
+		vertrag.setBeginnMitte(!vertrag.isBeginnMitte());
+	}// GEN-LAST:event_cbBeginnMitteStateChanged
 
 	private void jtEndeJahrPropertyChange(java.beans.PropertyChangeEvent evt) {// GEN-FIRST:event_jtEndeJahrPropertyChange
 		if ("value".equals(evt.getPropertyName())) {
@@ -449,9 +449,9 @@ public class VertragDlg extends javax.swing.JDialog {
 		}
 	}// GEN-LAST:event_jtEndeJahrPropertyChange
 
-	private void cbEndeSommerStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_cbEndeSommerStateChanged
-		vertrag.setEndeSommer(vertrag.isEndeSommer());
-	}// GEN-LAST:event_cbEndeSommerStateChanged
+	private void cbEndeMitteStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_cbEndeMitteStateChanged
+		vertrag.setEndeMitte(vertrag.isEndeMitte());
+	}// GEN-LAST:event_cbEndeMitteStateChanged
 
 	private void fachZuordnenActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fachZuordnenActionPerformed
 		if (vertrag.getSchliessfach() != null) {
@@ -518,8 +518,8 @@ public class VertragDlg extends javax.swing.JDialog {
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JCheckBox cbBeginnSommer;
-	private javax.swing.JCheckBox cbEndeSommer;
+	private javax.swing.JCheckBox cbBeginnMitte;
+	private javax.swing.JCheckBox cbEndeMitte;
 	private javax.swing.JButton fachFreigeben;
 	private javax.swing.JButton fachZuordnen;
 	private javax.swing.JLabel jLabel1;

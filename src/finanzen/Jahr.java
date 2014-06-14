@@ -19,6 +19,9 @@ import javax.persistence.Transient;
 /**
  *
  * @author fschuett
+ * 
+ * Schuljahre
+ * 
  */
 @SuppressWarnings("serial")
 @Entity

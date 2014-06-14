@@ -3,6 +3,54 @@
 <title>Hinweise</title>
 </head>
 <body>
+<h1>Verwendung</h1>
+<p>
+Das Feld <em>Schuljahr</em> bezieht sich immer auf Schuljahre (vom Beginnn des Schuljahres nach den
+Sommerferien bis zum Ende des Schuljahres zu Beginn der nächsten Sommerferien).</p>
+<p>
+Ein einjähriger Mietvertrag läuft demnach z.B. vom Beginn-Jahr <em>2011</em> bis zum Ende-Jahr <em>2011</em>.
+</p>
+<p>
+Schüler werden beim Entfernen nicht aus der Datenbank entfernt, sondern ihr Status wird auf 
+<em>inaktiv</em> gesetzt. Auf diese Weise hat man später immer noch Zugriff auf alte Schüler und
+Verträge.
+</p>
+
+<h1>Schülerimport</h1>
+<p>
+Die Schülerdaten können aus jedem Schulverwaltungsprogramm importiert werden, das CSV-Daten
+im Zeichensatz UTF-8 erzeugen kann. Andernfalls gibt es genügend Programme zur Konvertierung
+exportierter Dateien.</p>
+<p>
+Das Programm GHSchliessfach erwartet in jeder Zeile:
+<pre>
+<code>
+"&lt;Nummer&gt;";"&lt;Nachname&gt;";"&lt;Vorname&gt;";"&lt;Geburtsdatum&gt;";"&lt;Klasse&gt;";"&lt;Lehrer&gt;"
+</code>
+</pre>
+</p>
+<p>
+Die Datumsangabe wird in deutschem Format(tt.mm.jj bzw. tt.mm.jjjj) erwartet.
+</p>
+<p>
+Es können nur Schüler entfernt werden, für die kein offener Vertrag existiert 
+und deren Konten ausgeglichen sind.
+</p>
+
+<h2>Schülernummernimport</h2>
+<p>
+Bei einem Wechsel des Schulverwaltungsprogramms können sich die Schülernummern ändern.
+Dieser Menüpunkt ermöglicht die Ersetzung der alten durch neue Nummern.
+</p>
+<p>
+Dateiformat:
+<pre><code>
+&lt;<Überschrift&gt;<br>
+&lt;Nummer_alt&gt;;&lt;Nummer_neu&gt;<br>
+...
+</code></pre>
+</p>
+
 <h1>Hinweise</h1>
 <h2>Vertrag beenden</h2>
 <p>Beim Beenden eines Vertrages sind mehrere Dinge zu beachten.</p>
@@ -11,10 +59,12 @@
 entsprechende Zahlungen ausgeglichen sein.</li>
 <li>Dem Vertrag darf kein Schlüssel mehr zugeordnet sein.</li>
 <li>Der Vertrag muss ein Endejahr erhalten. Es muss das Schuljahr eingetragen werden, 
-für das der Vertrag nicht mehr gelten soll (Java-Konvention).</li>
+für das der Vertrag zuletzt gilt.</li>
 </ul>
-<h3>Beispiel</h3>
-<p>Der Vertrag endet zum 13.6.2014. Damit muss bei Endejahr das Schuljahr 2014 
-eingetragen werden und das Häkchen bei Sommer gesetzt werden.</p>
+<h3>Beispiele</h3>
+<p>Der Vertrag endet zum 13.6.2014. Damit muss bei Endejahr das Schuljahr 2013 
+eingetragen werden und das Häkchen bei Mitte darf nicht gesetzt werden.</p>
+<p>Für einen Vertrag, der Mitte des Schuljahres 2013 (also von Sommer 2013 bis Sommer 2014)
+ beginnt und Mitte 2013 endet, wird keine Mietgebühr fällig.</p>
 </body>
 </html>

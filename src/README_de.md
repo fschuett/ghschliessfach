@@ -64,10 +64,6 @@ Sommerferien bis zum Ende des Schuljahres zu Beginn der nächsten Sommerferien).
 
 Ein einjähriger Mietvertrag läuft demnach z.B. vom Beginn-Jahr 2011 bis zum Ende-Jahr 2011.
 
-Die Schülernummer ist eine 6stellige Zahl und besteht aus einer zweistelligen Jahrgangs- und
-einer angehängten 4stelligen laufenden Nummer. Ist eine Nummer kürzer, so wird die laufende
-Nummer beim Import mit Nullen aufgefüllt, z.B. 3012 --> 300012.
-
 Schüler werden beim Entfernen nicht aus der Datenbank entfernt, sondern ihr Status wird auf
 INAKTIV gesetzt. Auf diese Weise hat man später immer noch Zugriff auf alte Schüler und
 Verträge.
@@ -82,9 +78,6 @@ Das Programm GHSchliessfach erwartet in jeder Zeile:
 "<Nummer>";"<Nachname>";"<Vorname>";"<Geburtsdatum>";"<Klasse>";"<Lehrer>"
 
 Die Datumsangabe wird in deutschem Format(tt.mm.jj bzw. tt.mm.jjjj) erwartet.
-Die Schülernummer muss 6stellig sein und aus zwei Ziffern für den Jahrgang 
-und einer laufenden Nummer bestehen. Falls die Nummer kürzer ist, wird sie mit Nullen aufgefüllt, 
-z.B. 3012 --> 300012.
 
 Es können nur Schüler entfernt werden, für die kein offener Vertrag existiert 
 und deren Konten ausgeglichen sind.

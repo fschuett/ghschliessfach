@@ -35,43 +35,48 @@ public class Vertrag implements Serializable {
     @JoinColumn(name="FACH")
     @OneToOne(cascade=CascadeType.PERSIST)
     private Schliessfach schliessfach;
+    
+    /*
+     * Das Programm rechnet grundsätzlich in Schuljahren, Mitte bedeutet Mitte
+     * des Schuljahres, also zum 2. Halbjahr in Abweichung vom Regelfall.
+     */
     @Column(name="BEGINNJ")
     private Integer beginnJahr;
     @Column(name="BEGINNS")
-    private boolean beginnSommer;
+    private boolean beginnMitte;
     @Column(name="ENDEJ")
     private Integer endeJahr;
     @Column(name="ENDES")
-    private boolean endeSommer;
+    private boolean endeMitte;
     @JoinColumn(name="ZAHLUNGEN")
     @OneToMany(mappedBy = "vertrag")
     private final List<Zahlung> zahlungen = new ArrayList<Zahlung>();
 
     public Vertrag() {
-        this(null,null,-1,true);
+        this(null,null,-1,false);
     }
 
-    public Vertrag(Schueler schueler, Integer beginnJahr, boolean beginnSommer){
-        this(schueler,null,beginnJahr,beginnSommer);
+    public Vertrag(Schueler schueler, Integer beginnJahr, boolean beginnMitte){
+        this(schueler,null,beginnJahr,beginnMitte);
     }
 
-    public Vertrag(Schueler schueler, Schliessfach schliessfach, Integer beginnJahr, boolean beginnSommer){
+    public Vertrag(Schueler schueler, Schliessfach schliessfach, Integer beginnJahr, boolean beginnMitte){
         this.schueler = schueler;
         this.schliessfach = schliessfach;
         this.beginnJahr = beginnJahr;
-        this.beginnSommer = beginnSommer;
+        this.beginnMitte = beginnMitte;
         this.endeJahr = null;
-        this.endeSommer = true;
+        this.endeMitte = false;
     }
 
-    public Vertrag(Schueler schueler, Schliessfach schliessfach, Zahlung zahlung, Integer beginnJahr, boolean beginnSommer){
+    public Vertrag(Schueler schueler, Schliessfach schliessfach, Zahlung zahlung, Integer beginnJahr, boolean beginnMitte){
         this.schueler = schueler;
         this.schliessfach = schliessfach;
         this.zahlungen.add(zahlung);
         this.beginnJahr = beginnJahr;
-        this.beginnSommer = beginnSommer;
+        this.beginnMitte = beginnMitte;
         this.endeJahr = null;
-        this.endeSommer = true;
+        this.endeMitte = false;
     }
 
     public void einzahlen(Zahlung zahlung){
@@ -84,9 +89,9 @@ public class Vertrag implements Serializable {
                 this.zahlungen.add(z);
     }
 
-    public void vertragBeenden(Integer endeJahr, boolean endeSommer){
+    public void vertragBeenden(Integer endeJahr, boolean endeMitte){
         this.endeJahr = endeJahr;
-        this.endeSommer = endeSommer;
+        this.endeMitte = endeMitte;
         this.schliessfach = null;
     }
     
@@ -122,12 +127,12 @@ public class Vertrag implements Serializable {
         return beginnJahr;
     }
 
-    public boolean isBeginnSommer() {
-        return beginnSommer;
+    public boolean isBeginnMitte() {
+        return beginnMitte;
     }
 
-    public void setBeginnSommer(boolean beginnSommer) {
-        this.beginnSommer = beginnSommer;
+    public void setBeginnMitte(boolean beginnMitte) {
+        this.beginnMitte = beginnMitte;
     }
 
     public void setEndeJahr(Integer endeJahr) {
@@ -138,12 +143,12 @@ public class Vertrag implements Serializable {
         return endeJahr;
     }
 
-    public boolean isEndeSommer() {
-        return endeSommer;
+    public boolean isEndeMitte() {
+        return endeMitte;
     }
 
-    public void setEndeSommer(boolean endeSommer) {
-        this.endeSommer = endeSommer;
+    public void setEndeMitte(boolean endeMitte) {
+        this.endeMitte = endeMitte;
     }
 
     public List<Zahlung> getZahlungen() {
@@ -213,7 +218,8 @@ public class Vertrag implements Serializable {
     @Override
     public String toString() {
         return "Vertrag [ID=" + id + " Schueler=" + schueler + " Schliessfach"
-                + schliessfach + " BeginnJahr=" + beginnJahr + " EndeJahr="
-                + endeJahr + "]";
+                + schliessfach + " Beginn=" + beginnJahr +(beginnMitte?".2":".1")
+                + " Ende="
+                + endeJahr +(endeMitte?".1":".2") +"]";
     }
 }
