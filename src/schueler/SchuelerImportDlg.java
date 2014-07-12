@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -52,11 +53,12 @@ import org.jdesktop.application.TaskEvent;
 import org.jdesktop.application.TaskListener;
 
 import drucken.DruckVorschauDlg;
-
+import schliessfach.Konstanten;
 import schliessfach.SchliessfachApp;
 import schliessfach.SchliessfachView;
 import vertrag.Vertrag;
 import vertrag.Zahlungsart;
+
 import javax.swing.JButton;
 
 import static factories.TabellenFactory.*;
@@ -73,9 +75,41 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 	private Vector<Long> bearbeitet;
 	private boolean importInArbeit;
 	private ResourceMap resourceMap;
-	private static final File STANDARDDIR = new File(
-			"G:\\School\\Export zu GHSchließfach");
 
+    public String getImportPfad(){
+    	if(em == null)
+    		return null;
+    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='IMPORTPATH'");
+    	try {
+    		Konstanten k = (Konstanten)q.getSingleResult();
+        	if(k != null)
+        		return k.getInhalt();
+        	else
+        		return null;
+    	} catch (NoResultException e) {
+    		return null;
+    	}
+    }
+    
+    public boolean setImportPfad(String path){
+    	if(em == null)
+    		return false;
+    	if(path == null || "".equals(path))
+    		return false;
+    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='IMPORTPATH'");
+    	try {
+    		Konstanten k = (Konstanten)q.getSingleResult();
+      		k.setInhalt(path);
+      		return true;
+    	} catch (NoResultException e) {
+        	Konstanten k = new Konstanten("IMPORTPATH", path);
+        	em.getTransaction().begin();
+        	em.persist(k);
+        	em.getTransaction().commit();
+        	return true;
+    	}
+    }
+    
 	/** Creates new form SchuelerImportDlg */
 	public SchuelerImportDlg(java.awt.Frame parent) {
 		super(parent, true);
@@ -429,7 +463,10 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 		JFileChooser importDatei = new JFileChooser();
 		importDatei.setFileFilter(new FileNameExtensionFilter("TXT-Dateien",
 				"txt"));
-		importDatei.setCurrentDirectory(STANDARDDIR);
+		String dirname = getImportPfad();
+		if(dirname != null && !"".equals(dirname)) {
+			importDatei.setCurrentDirectory(new File(dirname));
+		}
 		if (importDatei.showOpenDialog(SchliessfachApp.getApplication()
 				.getMainFrame()) == JFileChooser.APPROVE_OPTION) {
 			File f = importDatei.getSelectedFile();
@@ -441,6 +478,7 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 								"Öffnen", JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
+			setImportPfad(importDatei.getCurrentDirectory().getAbsolutePath());
 			dateiName.setText(f.getAbsolutePath());
 		}
 	}// GEN-LAST:event_waehleActionPerformed

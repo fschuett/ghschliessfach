@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -39,6 +40,7 @@ import org.jdesktop.application.Task;
 import org.jdesktop.application.TaskEvent;
 import org.jdesktop.application.TaskListener;
 
+import schliessfach.Konstanten;
 import schliessfach.SchliessfachApp;
 import schliessfach.SchliessfachView;
 
@@ -75,6 +77,40 @@ public class SchuelernummernImportDlg extends javax.swing.JDialog {
 		initComponents();
 	}
 
+    public String getNummernImportPfad(){
+    	if(em == null)
+    		return null;
+    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='NUMMERNIMPORTPATH'");
+    	try {
+    		Konstanten k = (Konstanten)q.getSingleResult();
+        	if(k != null)
+        		return k.getInhalt();
+        	else
+        		return null;
+    	} catch (NoResultException e) {
+    		return null;
+    	}
+    }
+    
+    public boolean setNummernImportPfad(String path){
+    	if(em == null)
+    		return false;
+    	if(path == null || "".equals(path))
+    		return false;
+    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='NUMMERNIMPORTPATH'");
+    	try {
+    		Konstanten k = (Konstanten)q.getSingleResult();
+      		k.setInhalt(path);
+      		return true;
+    	} catch (NoResultException e) {
+        	Konstanten k = new Konstanten("NUMMERNIMPORTPATH", path);
+        	em.getTransaction().begin();
+        	em.persist(k);
+        	em.getTransaction().commit();
+        	return true;
+    	}
+    }
+    
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -361,6 +397,10 @@ public class SchuelernummernImportDlg extends javax.swing.JDialog {
 		JFileChooser importDatei = new JFileChooser();
 		importDatei.setFileFilter(new FileNameExtensionFilter("SDF-Dateien",
 				"sdf"));
+		String dirname = getNummernImportPfad();
+		if (dirname != null && !"".equals(dirname)) {
+			importDatei.setCurrentDirectory(new File(dirname));
+		}
 		if (importDatei.showOpenDialog(SchliessfachApp.getApplication()
 				.getMainFrame()) == JFileChooser.APPROVE_OPTION) {
 			File f = importDatei.getSelectedFile();
@@ -372,6 +412,8 @@ public class SchuelernummernImportDlg extends javax.swing.JDialog {
 								"Öffnen", JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
+			setNummernImportPfad(importDatei.getCurrentDirectory()
+					.getAbsolutePath());
 			dateiName.setText(f.getAbsolutePath());
 		}
 	}// GEN-LAST:event_waehleActionPerformed
