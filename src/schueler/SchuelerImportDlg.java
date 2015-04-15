@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -76,40 +77,42 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 	private boolean importInArbeit;
 	private ResourceMap resourceMap;
 
-    public String getImportPfad(){
-    	if(em == null)
-    		return null;
-    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='IMPORTPATH'");
-    	try {
-    		Konstanten k = (Konstanten)q.getSingleResult();
-        	if(k != null)
-        		return k.getInhalt();
-        	else
-        		return null;
-    	} catch (NoResultException e) {
-    		return null;
-    	}
-    }
-    
-    public boolean setImportPfad(String path){
-    	if(em == null)
-    		return false;
-    	if(path == null || "".equals(path))
-    		return false;
-    	Query q = em.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='IMPORTPATH'");
-    	try {
-    		Konstanten k = (Konstanten)q.getSingleResult();
-      		k.setInhalt(path);
-      		return true;
-    	} catch (NoResultException e) {
-        	Konstanten k = new Konstanten("IMPORTPATH", path);
-        	em.getTransaction().begin();
-        	em.persist(k);
-        	em.getTransaction().commit();
-        	return true;
-    	}
-    }
-    
+	public String getImportPfad() {
+		if (em == null)
+			return null;
+		Query q = em
+				.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='IMPORTPATH'");
+		try {
+			Konstanten k = (Konstanten) q.getSingleResult();
+			if (k != null)
+				return k.getInhalt();
+			else
+				return null;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	public boolean setImportPfad(String path) {
+		if (em == null)
+			return false;
+		if (path == null || "".equals(path))
+			return false;
+		Query q = em
+				.createQuery("SELECT k FROM Konstanten k WHERE k.kennung='IMPORTPATH'");
+		try {
+			Konstanten k = (Konstanten) q.getSingleResult();
+			k.setInhalt(path);
+			return true;
+		} catch (NoResultException e) {
+			Konstanten k = new Konstanten("IMPORTPATH", path);
+			em.getTransaction().begin();
+			em.persist(k);
+			em.getTransaction().commit();
+			return true;
+		}
+	}
+
 	/** Creates new form SchuelerImportDlg */
 	public SchuelerImportDlg(java.awt.Frame parent) {
 		super(parent, true);
@@ -464,7 +467,7 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 		importDatei.setFileFilter(new FileNameExtensionFilter("TXT-Dateien",
 				"txt"));
 		String dirname = getImportPfad();
-		if(dirname != null && !"".equals(dirname)) {
+		if (dirname != null && !"".equals(dirname)) {
 			importDatei.setCurrentDirectory(new File(dirname));
 		}
 		if (importDatei.showOpenDialog(SchliessfachApp.getApplication()
@@ -640,11 +643,16 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 			Long nr = -1L;
 			int index;
 			// Dateiformat:
-			// <Nummer>;<Nachname>;<Vorname>;<Geburtsdatum>;<Klasse>[;<Lehrer>]
+			// <Nummer>;<Nachname>;<Vorname>;<Geburtsdatum>;<Klasse>;<Lehrer>;<Namenszusatz>
 			// in jeder gültigen Zeile
 			while ((s = leseImF.readLine()) != null) {
 				zeile++;
 				String[] feld = s.split(";");
+				if (feld != null && feld.length == 7) {
+					// Namenszusatz vorhanden
+					feld[1] = feld[6] + " " + feld[1];
+					feld = Arrays.copyOf(feld, 6);
+				}
 				if (feld != null && feld.length == 5) {
 					// Kein Klassenlehrer!
 					feld = Arrays.copyOf(feld, 6);
