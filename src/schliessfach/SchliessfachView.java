@@ -2430,7 +2430,7 @@ public class SchliessfachView extends FrameView {
 		if (!dlg.istAbgebrochen()) {
 			String name = dlg.getResult();
 			System.out.println("[SUCHE-SCHÜLER] - Resultat :" + name);
-			q = em.createQuery("SELECT s FROM Schueler s WHERE s.nachName=:nachName AND s.vorName=:vorName");
+			q = em.createQuery("SELECT s FROM Schueler s WHERE s.nachName=:nachName AND s.vorName=:vorName AND NOT s.status=schueler.SchuelerStatus.INAKTIV");
 			int pos = name.indexOf(",");
 			q.setParameter("vorName", name.substring(pos + 1));
 			q.setParameter("nachName", name.substring(0, pos));
