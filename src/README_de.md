@@ -91,6 +91,6 @@ Dateiformat:
 <Nummer_alt>;<Nummer_neu>
 ...
 
-Hildesheim, 2013
+Hildesheim, 2016
 Frank Schütte
-fschuett@gymnasium-himmelsthuer.de
+fschuett@gymhim.de

@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -74,11 +75,20 @@ import javax.swing.JMenuItem;
 import javax.swing.AbstractAction;
 
 import static factories.TabellenFactory.*;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.Color;
+
+import javax.swing.JButton;
+
+import java.awt.Font;
+import java.awt.SystemColor;
+
+import javax.swing.border.BevelBorder;
 
 /**
  * The application's main frame.
@@ -1021,46 +1031,41 @@ public class SchliessfachView extends FrameView {
 		jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		jLabel10.setText("Schüler"); // NOI18N
 		jLabel10.setName("jLabel10"); // NOI18N
+		
+		JButton vtgAufloesen = new JButton("Vertrag auflösen");
+		vtgAufloesen.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		vtgAufloesen.setBackground(SystemColor.info);
+		vtgAufloesen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				vertragAufloesenActionPerformed(evt);
+			}
+		});
+		vtgAufloesen.setFont(new Font("Dialog", Font.PLAIN, 12));
 
 		javax.swing.GroupLayout gl_sAktionenPanel = new javax.swing.GroupLayout(
 				sAktionenPanel);
+		gl_sAktionenPanel.setHorizontalGroup(
+			gl_sAktionenPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_sAktionenPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_sAktionenPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(jLabel10, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+						.addComponent(einAusZahlung, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+						.addComponent(vtgAufloesen, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_sAktionenPanel.setVerticalGroup(
+			gl_sAktionenPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_sAktionenPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(jLabel10)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(einAusZahlung)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(vtgAufloesen)
+					.addContainerGap(30, Short.MAX_VALUE))
+		);
 		sAktionenPanel.setLayout(gl_sAktionenPanel);
-		gl_sAktionenPanel
-				.setHorizontalGroup(gl_sAktionenPanel
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								gl_sAktionenPanel
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_sAktionenPanel
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(
-																jLabel10,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																113,
-																Short.MAX_VALUE)
-														.addComponent(
-																einAusZahlung,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																113,
-																Short.MAX_VALUE))
-										.addContainerGap()));
-		gl_sAktionenPanel
-				.setVerticalGroup(gl_sAktionenPanel
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								gl_sAktionenPanel
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(jLabel10)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(einAusZahlung)
-										.addContainerGap(60, Short.MAX_VALUE)));
 
 		detailsTabs.setName("detailsTabs"); // NOI18N
 		detailsTabs.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -2644,7 +2649,7 @@ public class SchliessfachView extends FrameView {
 		int zeile;
 		if ((zeile = schluesselTabelle.getSelectedRow()) == -1) {
 			JOptionPane.showMessageDialog(this.getFrame(),
-					"Sie müssen zuerste einen Schlüssel auswählen.",
+					"Sie müssen zuerst einen Schlüssel auswählen.",
 					"Schlüssel entfernen", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -2756,6 +2761,96 @@ public class SchliessfachView extends FrameView {
 		aktualisiereMietenliste();
 	}// GEN-LAST:event_einAusZahlungActionPerformed
 
+	private void vertragAufloesenActionPerformed(ActionEvent evt) {// GEN-FIRST:event_vertragAufloesenActionPerformed
+		// Schließfach freigeben, Schlüssel freigeben, Kaution zurücknehmen, Vertrag abschließen
+		int zeilen = 0;
+		if(vertragTabelle == null || (zeilen=vertragTabelle.getRowCount()) <= 0){
+			JOptionPane.showMessageDialog(this.getFrame(),
+					"Es ist kein Vertrag vorhanden.",
+					"Vertrag auflösen", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		Vertrag offen = null;
+		for(int index=0;index<zeilen;index++) {
+			Long id = (Long) vertragTabelle.getModel().getValueAt(index, 0);
+			Vertrag vertrag = em.find(Vertrag.class, id);
+			if (vertrag.getEndeJahr() == null) {
+				if(offen != null){
+					JOptionPane.showMessageDialog(this.getFrame(),
+							"Es ist mehr als ein offener Vertrag vorhanden.",
+							"Vertrag auflösen", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				offen = vertrag;
+			}
+		}
+		if(offen == null){
+			JOptionPane.showMessageDialog(this.getFrame(), 
+					"Es ist kein offener Vertrag vorhanden.",
+					"Vertrag auflösen", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		// Sind noch Gebühren zu zahlen
+		if(((Number)gebuehrenBetrag.getValue()).doubleValue() != 0) {
+			JOptionPane.showMessageDialog(this.getFrame(),
+					"Der Vertrag kann nicht aufgelöst werden. Es sind noch Gebühren offen.",
+					"Vertrag auflösen", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		// Kaution zurückbuchen
+		if(((Number)kautionBetrag.getValue()).doubleValue() != 0) {
+	        Zahlung neu = new Zahlung(offen, Zahlungsart.KautionZurueck, -((Number) kautionBetrag.getValue()).doubleValue());
+	        if (auswahlJahr.getSelectedItem() != null) {
+	            neu.setLeihJahr(((Jahr) auswahlJahr.getSelectedItem()).getJahr().intValue());
+	        } else {
+	            neu.setLeihJahr(null);
+	        }
+	        em.getTransaction().begin();
+	        offen.einzahlen(neu);
+	        em.persist(neu);
+	        Historie.anhaengen(Rubrik.ZAHLUNG, neu.getVertrag().toString(), "hinzugefügt: "+neu.toString());
+	        em.getTransaction().commit();
+		}
+		// Schließfach freigeben
+		Schliessfach s = offen.getSchliessfach();
+		if (s != null) {
+			// Ist noch ein Schlüssel ausgeteilt?
+			Query q = em
+				.createQuery("SELECT s FROM Schluessel s WHERE s.schliessfach.nr="
+						+ offen.getSchliessfach().getNr()
+						+ " AND s.ausgegeben=true");
+			@SuppressWarnings("unchecked")
+			List<Schluessel> l = (List<Schluessel>)q.getResultList();
+			if (l != null && l.size() > 0) {
+				em.getTransaction().begin();
+				for(Schluessel sl : l){
+					sl.einsammeln();
+				}
+				em.getTransaction().commit();
+			}
+			em.getTransaction().begin();
+			offen.setSchliessfach(null);
+			Historie.anhaengen(Rubrik.VERTRAG, offen.getSchueler().getNr()
+					.toString(), "Schliessfach freigeben: " + s.toString()
+					+ " -> null");
+			s.setVertrag(null);
+			Historie.anhaengen(Rubrik.SCHLIESSFACH, s.getNr().toString(),
+					"Vertrag freigeben: " + offen.toString() + " -> null");
+			em.getTransaction().commit();
+		}
+		// Vertrag abschließen
+		em.getTransaction().begin();
+		offen.setEndeJahr(((Jahr)auswahlJahr.getSelectedItem()).getJahr().intValue());
+		offen.setEndeMitte(false);
+		em.getTransaction().commit();
+		aktualisiereBetraege();
+		aktualisiereKautionenliste();
+		aktualisiereVertragliste();
+		aktualisiereSchluesselliste();
+		JOptionPane.showMessageDialog(this.getFrame(),
+				"Der Vertrag wurde aufgelöst.", "Vertrag auflösen", JOptionPane.INFORMATION_MESSAGE);
+	}// GEN-LAST:event_vertragAufloesenActionPerformed
+	
 	private void detailsTabsStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_detailsTabsStateChanged
 		einAusZahlung.setEnabled(detailsTabs.getSelectedIndex() == 0);
 	}// GEN-LAST:event_detailsTabsStateChanged
