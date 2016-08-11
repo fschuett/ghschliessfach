@@ -646,6 +646,7 @@ public class SchuelerImportDlg extends javax.swing.JDialog {
 			// <Nummer>;<Nachname>;<Vorname>;<Geburtsdatum>;<Klasse>;<Lehrer>;<Namenszusatz>
 			// in jeder gültigen Zeile
 			while ((s = leseImF.readLine()) != null) {
+				s = s.replace("\"", "");
 				zeile++;
 				String[] feld = s.split(";");
 				if (feld != null && feld.length == 7) {
