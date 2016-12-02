@@ -102,7 +102,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="564" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="575" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -115,10 +115,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" pref="100" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Component id="buttonPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="buttonPanel" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -172,7 +169,6 @@
                     </Column>
                   </TableColumnModel>
                 </Property>
-                <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
@@ -227,15 +223,23 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
             <Property name="horizontalGap" type="int" value="10"/>
             <Property name="columns" type="int" value="1"/>
-            <Property name="rows" type="int" value="1"/>
+            <Property name="rows" type="int" value="2"/>
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JButton" name="add">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Hinzuf&#xfc;gen"/>
+                <Property name="text" type="java.lang.String" value="Neu"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="remove">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Entfernen"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

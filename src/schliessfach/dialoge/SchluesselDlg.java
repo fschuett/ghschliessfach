@@ -6,15 +6,23 @@
 package schliessfach.dialoge;
 
 
+import historie.Historie;
+import historie.Rubrik;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 import org.jdesktop.application.ResourceMap;
 
 import schliessfach.Schliessfach;
 import schliessfach.Schluessel;
 import schliessfach.SchliessfachApp;
+import vertrag.Vertrag;
+import vertrag.Zahlung;
+import vertrag.Zahlungsart;
 
 /**
  *
@@ -74,13 +82,14 @@ public class SchluesselDlg extends javax.swing.JDialog {
     schluesselTabelle = new javax.swing.JTable();
     buttonPanel = new javax.swing.JPanel();
     add = new javax.swing.JButton();
+    remove = new javax.swing.JButton();
     schliessen = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
     schliessfachPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüsselliste", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(52, 7, 211))); // NOI18N
 
-    schluesselTabelle.setColumnSelectionAllowed(false);
+    schluesselTabelle.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüsselliste", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(1, 3, 230))); // NOI18N
     schluesselTabelle.getTableHeader().setReorderingAllowed(false);
 
     org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, schluesselListe, schluesselTabelle);
@@ -96,7 +105,7 @@ public class SchluesselDlg extends javax.swing.JDialog {
     columnBinding.setColumnName("Ausgegeben");
     columnBinding.setColumnClass(Boolean.class);
     columnBinding.setEditable(false);
-    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${anVertrag.id}"));
+    columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${anVertrag.nr}"));
     columnBinding.setColumnName("Vertrag");
     columnBinding.setColumnClass(Long.class);
     columnBinding.setEditable(false);
@@ -110,9 +119,9 @@ public class SchluesselDlg extends javax.swing.JDialog {
     schluesselTabelle.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     buttonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüssel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(24, 8, 241))); // NOI18N
-    buttonPanel.setLayout(new java.awt.GridLayout(1, 1, 10, 0));
+    buttonPanel.setLayout(new java.awt.GridLayout(2, 1, 10, 0));
 
-    add.setText("Hinzufügen");
+    add.setText("Neu");
     add.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             addActionPerformed(evt);
@@ -120,13 +129,21 @@ public class SchluesselDlg extends javax.swing.JDialog {
     });
     buttonPanel.add(add);
 
+    remove.setText("Entfernen");
+    remove.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            removeActionPerformed(evt);
+        }
+    });
+    buttonPanel.add(remove);
+
     javax.swing.GroupLayout schliessfachPanelLayout = new javax.swing.GroupLayout(schliessfachPanel);
     schliessfachPanel.setLayout(schliessfachPanelLayout);
     schliessfachPanelLayout.setHorizontalGroup(
         schliessfachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, schliessfachPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
             .addGap(18, 18, 18)
             .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
@@ -137,9 +154,7 @@ public class SchluesselDlg extends javax.swing.JDialog {
             .addContainerGap()
             .addGroup(schliessfachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addGroup(schliessfachPanelLayout.createSequentialGroup()
-                    .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 55, Short.MAX_VALUE)))
+                .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap())
     );
 
@@ -204,6 +219,56 @@ public class SchluesselDlg extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_schliessenActionPerformed
 
+    private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
+		int zeile;
+		if ((zeile = schluesselTabelle.getSelectedRow()) == -1) {
+			JOptionPane.showMessageDialog(this.getParent(),
+					"Sie müssen zuerst einen Schlüssel auswählen.",
+					"Schlüssel entfernen", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		Long fachNr = (Long) schluesselTabelle.getModel().getValueAt(zeile, 1);
+		Long schluesselNr = (Long) schluesselTabelle.getModel().getValueAt(
+				zeile, 0);
+		try {
+			Query q = em
+					.createQuery("SELECT s FROM Schluessel s WHERE s.schliessfach.nr="
+							+ fachNr + " AND s.nr=" + schluesselNr);
+			Schluessel schluessel = (Schluessel) q.getSingleResult();
+			boolean gebuehrFaellig;
+			double gebuehr = SchliessfachApp.getApplication().aktuelleGebuehren
+					.get(Zahlungsart.Ersatzschluessel);
+			if (schluessel.getAnVertrag() != null) {
+				gebuehrFaellig = (JOptionPane.YES_OPTION == JOptionPane
+						.showConfirmDialog(this.getParent(),
+								"Es wird eine Gebühr von " + gebuehr
+										+ " EUR fällig.", "Schlüsselverlust",
+								JOptionPane.YES_NO_OPTION));
+			} else {
+				gebuehrFaellig = false;
+			}
+			em.getTransaction().begin();
+			if (gebuehrFaellig) {
+				Vertrag v = schluessel.getAnVertrag();
+				Zahlung z = new Zahlung(v, Zahlungsart.Ersatzschluessel,
+						-gebuehr);
+				v.getZahlungen().add(z);
+				em.persist(z);
+				Historie.anhaengen(Rubrik.ZAHLUNG, z.getVertrag().toString(),
+						"hinzugefügt: " + z.toString());
+			}
+			schluessel.getSchliessfach().getSchluessel().remove(schluessel);
+			em.remove(schluessel);
+			em.getTransaction().commit();
+		} catch (NoResultException e) {
+			System.out.println("[schluesselEntfernen] Schlüssel Nr("
+					+ schluesselNr + ") für Schließfach(" + fachNr
+					+ ") nicht gefunden.");
+			e.printStackTrace();
+		}
+		aktualisiereSchluesselListe();
+    }//GEN-LAST:event_removeActionPerformed
+
     private void aktualisiereSchluesselListe() {
         if (schluesselListe != null) {
             schluesselListe.clear();
@@ -260,6 +325,7 @@ public class SchluesselDlg extends javax.swing.JDialog {
     private javax.swing.JPanel buttonPanel;
     private javax.persistence.EntityManager em;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton remove;
     private javax.swing.JButton schliessen;
     private javax.swing.JPanel schliessfachPanel;
     private java.util.List schluesselListe;
