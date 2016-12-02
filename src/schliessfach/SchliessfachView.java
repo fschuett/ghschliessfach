@@ -89,6 +89,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 
 import javax.swing.border.BevelBorder;
+import schliessfach.dialoge.SchluesselDlg;
 
 /**
  * The application's main frame.
@@ -2211,7 +2212,7 @@ public class SchliessfachView extends FrameView {
 		});
 		verwaltungMenu.add(verwaltungFach);
 
-		verwaltungSchluessel.setText("Schlüssel"); // NOI18N
+		verwaltungSchluessel.setAction(actionMap.get("schluesselVerwaltung")); // NOI18N
 		verwaltungSchluessel.setName("verwaltungSchluessel"); // NOI18N
 		verwaltungMenu.add(verwaltungSchluessel);
 
@@ -3406,6 +3407,38 @@ public class SchliessfachView extends FrameView {
 		}
 	}
 
+        @Action
+        public void schluesselVerwaltung() {
+            String sfNr = JOptionPane
+                    .showInputDialog(
+                    this.getFrame(),
+                            "Bitte geben Sie die gewünschte Schliessfachnummer ein.",
+                            "Schlüssel bearbeiten", JOptionPane.QUESTION_MESSAGE);
+            if(sfNr == null)
+                return;
+            Query q = em.createQuery("SELECT s FROM Schliessfach s WHERE s.nr = :nr");
+            try {
+            	long nr = new Long(sfNr);
+            	q.setParameter("nr", nr);
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(this.getFrame(),
+                        "Nummer " + sfNr + " ist keine gültige Schließfachnummer.",
+                        "Schlüssel bearbeiten", JOptionPane.ERROR_MESSAGE);
+                return;            	
+            }
+            Schliessfach sf = (Schliessfach) q.getSingleResult();
+            if (sf == null) {
+                JOptionPane.showMessageDialog(this.getFrame(),
+                        "Das Schließfach mit der Nummer " + sfNr + " existiert nicht.",
+                        "Schlüssel bearbeiten", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            SchluesselDlg dlg = new SchluesselDlg(this.getFrame(), true, sf);
+            dlg.setLocationRelativeTo(this.getFrame());
+            dlg.setVisible(true);
+            this.aktualisiereSchluesselliste();
+        }
+        
 	@Action
 	public void kautionsListe() {
 		listeKlasse(false);
