@@ -1,3 +1,2 @@
   - Änderungen, Löschungen in die Protokolldatei übernehmen
-  - Knopf "Vertrag auflösen"
   
