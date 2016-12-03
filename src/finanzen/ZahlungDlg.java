@@ -21,6 +21,8 @@ import javax.persistence.Query;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingbinding.JComboBoxBinding;
+
 import schliessfach.SchliessfachApp;
 import vertrag.Vertrag;
 import vertrag.Zahlung;
@@ -47,7 +49,8 @@ public class ZahlungDlg extends javax.swing.JDialog {
         Integer diesJahr = vertrag.getBeginnJahr();
         Query q = em.createQuery("SELECT z.leihJahr FROM Zahlung z JOIN z.vertrag v WHERE v.id=" + vertrag.getId()
                 + " AND z.art=vertrag.Zahlungsart.Miete ORDER BY z.leihJahr DESC");
-        List<Integer> bisherigeJahre = q.getResultList();
+        @SuppressWarnings("unchecked")
+		List<Integer> bisherigeJahre = q.getResultList();
         if (!bisherigeJahre.isEmpty() && bisherigeJahre.get(0) != null) {
             diesJahr = bisherigeJahre.get(0) + 1;
         }
@@ -77,13 +80,13 @@ public class ZahlungDlg extends javax.swing.JDialog {
         schliesse = new javax.swing.JButton();
         hinzufuegen = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        art = new javax.swing.JComboBox();
+        art = new javax.swing.JComboBox<Zahlungsart>();
         jLabel1 = new javax.swing.JLabel();
         kommentar = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         betrag = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        jahr = new javax.swing.JComboBox();
+        jahr = new javax.swing.JComboBox<Jahr>();
         jLabel3 = new javax.swing.JLabel();
         vertragFeld = new javax.swing.JFormattedTextField();
         vertragFeld.setValue(vertrag);
@@ -113,7 +116,7 @@ public class ZahlungDlg extends javax.swing.JDialog {
         jPanel1.setName("jPanel1"); // NOI18N
 
         art.setFont(new java.awt.Font("Dialog", 0, 12));
-        art.setModel(new DefaultComboBoxModel(EnumSet.allOf(Zahlungsart.class).toArray()));
+        art.setModel(new DefaultComboBoxModel<Zahlungsart>((Zahlungsart[]) EnumSet.allOf(Zahlungsart.class).toArray()));
         art.setSelectedItem(Zahlungsart.Miete);
         art.setName("art"); // NOI18N
         art.addActionListener(new java.awt.event.ActionListener() {
@@ -144,7 +147,8 @@ public class ZahlungDlg extends javax.swing.JDialog {
         jahr.setFont(new java.awt.Font("Dialog", 0, 12));
         jahr.setName("jahr"); // NOI18N
 
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jahrListe, jahr);
+        @SuppressWarnings("rawtypes")
+		JComboBoxBinding<Jahr, List<Jahr>, JComboBox> jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jahrListe, jahr);
         bindingGroup.addBinding(jComboBoxBinding);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -247,7 +251,8 @@ public class ZahlungDlg extends javax.swing.JDialog {
                 Integer diesJahr = vertrag.getBeginnJahr();
                 Query q = em.createQuery("SELECT z.leihJahr FROM Zahlung z JOIN z.vertrag v WHERE v.id=" + vertrag.getId()
                         + " AND " + Zahlungsart.mietenQS("z.art") + " ORDER BY z.leihJahr DESC");
-                List<Integer> bisherigeJahre = q.getResultList();
+                @SuppressWarnings("unchecked")
+				List<Integer> bisherigeJahre = q.getResultList();
                 if (!bisherigeJahre.isEmpty()) {
                     diesJahr = bisherigeJahre.get(0) + 1;
                 }
@@ -306,7 +311,7 @@ public class ZahlungDlg extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox art;
+    private javax.swing.JComboBox<Zahlungsart> art;
     private javax.swing.JFormattedTextField betrag;
     private javax.persistence.EntityManager em;
     private javax.swing.JButton hinzufuegen;
@@ -315,8 +320,8 @@ public class ZahlungDlg extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JComboBox jahr;
-    private java.util.List jahrListe;
+    private javax.swing.JComboBox<Jahr> jahr;
+    private java.util.List<Jahr> jahrListe;
     private javax.persistence.Query jahrQuery;
     private javax.swing.JFormattedTextField kommentar;
     private javax.swing.JButton schliesse;

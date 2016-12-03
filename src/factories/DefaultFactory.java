@@ -23,7 +23,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class DefaultFactory {
 
-    public static class DateRenderer extends DefaultTableCellRenderer {
+    @SuppressWarnings("serial")
+	public static class DateRenderer extends DefaultTableCellRenderer {
 
         DateFormat formatter;
 
