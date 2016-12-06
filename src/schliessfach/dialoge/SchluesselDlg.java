@@ -89,7 +89,8 @@ public class SchluesselDlg extends javax.swing.JDialog {
 
     schliessfachPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüsselliste", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(52, 7, 211))); // NOI18N
 
-    schluesselTabelle.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüsselliste", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(1, 3, 230))); // NOI18N
+    schluesselTabelle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+    schluesselTabelle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     schluesselTabelle.getTableHeader().setReorderingAllowed(false);
 
     org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, schluesselListe, schluesselTabelle);
@@ -118,7 +119,7 @@ public class SchluesselDlg extends javax.swing.JDialog {
     jScrollPane1.setViewportView(schluesselTabelle);
     schluesselTabelle.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-    buttonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüssel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(24, 8, 241))); // NOI18N
+    buttonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Schlüssel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), java.awt.Color.black)); // NOI18N
     buttonPanel.setLayout(new java.awt.GridLayout(2, 1, 10, 0));
 
     add.setText("Neu");
@@ -154,7 +155,9 @@ public class SchluesselDlg extends javax.swing.JDialog {
             .addContainerGap()
             .addGroup(schliessfachPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(schliessfachPanelLayout.createSequentialGroup()
+                    .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
             .addContainerGap())
     );
 
