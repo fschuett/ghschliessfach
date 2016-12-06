@@ -14,5 +14,5 @@ ant create_run_jar
 in the main project directory.
 
 Copyright
-Frank Schütte 2012
+Frank Schütte 2016
 fschuett@gymnasium-himmelsthuer.de

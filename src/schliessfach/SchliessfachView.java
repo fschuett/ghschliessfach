@@ -87,9 +87,11 @@ import javax.swing.JButton;
 
 import java.awt.Font;
 import java.awt.SystemColor;
+import javax.persistence.TypedQuery;
 
 import javax.swing.border.BevelBorder;
 import schliessfach.dialoge.SchluesselDlg;
+import schueler.SchuelerStatusDlg;
 
 /**
  * The application's main frame.
@@ -2154,6 +2156,9 @@ public class SchliessfachView extends FrameView {
 		JSeparator separator_2 = new JSeparator();
 		dateiMenu.add(separator_2);
 
+                dateiMenu.add(new JMenuItem(actionMap.get("schuelerDlg")));
+                dateiMenu.add(new JSeparator());
+                
 		miDrucker.setAction(actionMap.get("druckerEinstellen")); // NOI18N
 		miDrucker.setText(resourceMap.getString("miDrucker.text")); // NOI18N
 		miDrucker.setName("miDrucker"); // NOI18N
@@ -2425,7 +2430,7 @@ public class SchliessfachView extends FrameView {
 
 	private void sucheSchuelerActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_sucheSchuelerActionPerformed
 		Query q = em
-				.createQuery("SELECT s.nachName,s.vorName FROM Schueler s WHERE NOT s.status=schueler.SchuelerStatus.INAKTIV ORDER BY s.nachName ASC,s.vorName ASC");
+				.createQuery("SELECT s.nachName,s.vorName FROM Schueler s WHERE NOT s.status=schueler.SchuelerStatus.INAKTIV ORDER BY s.nachName ASC,s.vorName ASC"); 
 		String[] ar = namenList2StringArray(q.getResultList());
 		SuchDialog dlg = new SuchDialog(SchliessfachApp.getApplication()
 				.getMainFrame(), ar);
@@ -3327,6 +3332,30 @@ public class SchliessfachView extends FrameView {
 		dlg.setVisible(true);
 	}
 
+        @Action
+        public void schuelerDlg() {
+            String ret = JOptionPane.showInputDialog(this.getFrame(),
+                    "Geben Sie die Vertragsnummer ein: ", "Schülerdialog",
+                    JOptionPane.QUESTION_MESSAGE);
+            try {
+                Long nummer = new Long(ret);
+                Query q = em.createQuery("SELECT s FROM Schueler s JOIN s.vertraege v WHERE v.id = :nr");
+                q.setParameter("nr",nummer);
+                Schueler s = (Schueler) q.getSingleResult();
+                SchuelerStatusDlg dlg = new SchuelerStatusDlg(this.getFrame(), true, s);
+                dlg.setLocationRelativeTo(this.getFrame());
+                dlg.setVisible(true);
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(this.getFrame(),
+                        "Die eingegebene Nummer ist ungültig.",
+                        "Schülerdialog",JOptionPane.ERROR_MESSAGE);
+            } catch (NoResultException e){
+            	JOptionPane.showMessageDialog(this.getFrame(),
+            			"Einen Schüler mit dieser Vertragsnummer gibt es nicht.",
+            			"Schülerdialog", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
 	public void listeKlasse(boolean mieten) {
 		String sKlasse = (String) auswahlKlasse.getSelectedItem();
 		if (sKlasse == null) {
