@@ -1,9 +1,2 @@
-bin/
-GHSchliessfach_lib/
-GHSchliessfach.jar
-SchliessfachDB/
-derby.log
-README_de.md
-SchliessfachDB.sql
-ij.sh
-SchliessfachDB_1.0-2.0.sql
+/SchliessfachDB/
+/derby.log
