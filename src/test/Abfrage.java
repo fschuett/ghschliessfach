@@ -4,23 +4,17 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.prefs.Preferences;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.print.PrintService;
-import javax.print.attribute.PrintRequestAttributeSet;
 
 import vertrag.Zahlung;
 import vertrag.Zahlungsart;
 
 public class Abfrage {
 
-	/**
-	 * @param args
-	 */
     public static final String PERSISTENCE_UNIT_NAME = "SCHLIESSFACH";
     public static EntityManagerFactory factory;
     public static final boolean TEST = false;
@@ -28,8 +22,10 @@ public class Abfrage {
     public static Calendar heute;
     public static Map<Zahlungsart, Double> aktuelleGebuehren = new HashMap<Zahlungsart, Double>();
     
+	/**
+	 * @param args
+	 */
     public static void main(String[] args) {
-		// TODO Auto-generated method stub
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         em = factory.createEntityManager();
         heute = Calendar.getInstance();

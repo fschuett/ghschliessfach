@@ -46,7 +46,7 @@ Starten Sie ij.sh: ./ij.sh
 Verbinden Sie die Datenbank durch den ij-Befehl: connect 'jdbc:derby:SchliessfachDB';
  -> Fertigmeldung
 
-Erzeugen Sie die neuen Tabellen in der Datenbank durch den ij-Befehl: run 'SchliessfachDB_historie.sql';
+Erzeugen Sie die neuen Tabellen in der Datenbank durch den ij-Befehl: run 'SchliessfachDB_1.0-2.0.sql';
 oder die Datei, die in der Programmfehlermeldung genannt worden ist.
 
 Verlassen Sie ij: exit;
