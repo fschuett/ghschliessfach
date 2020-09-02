@@ -40,6 +40,7 @@ public enum Zahlungsart {
         public static Set<Zahlungsart> sonderfall;
         public static Set<Zahlungsart> einzahlung;
         public static Set<Zahlungsart> auszahlung;
+        public static Set<Zahlungsart> alles;
 
         public static String mietenQS(String var){
             return " "+var+"=vertrag.Zahlungsart.Miete OR "+var+"=vertrag.Zahlungsart.MieteZurueck OR "
@@ -71,5 +72,10 @@ public enum Zahlungsart {
                     KautionZweitschluessel, Ersatzschluessel, Sonder);
             auszahlung = EnumSet.of(MieteZurueck, MieteZweitschluesselZurueck, MieteZurueckHalbjahr, MieteZweitschluesselHalbjahrZurueck,
                     KautionZurueck, KautionZweitschluesselZurueck, SonderZurueck);
+            alles = EnumSet.of(Miete, MieteZurueck, MieteZweitschluessel, MieteZweitschluesselZurueck,
+                    MieteHalbjahr, MieteZurueckHalbjahr, MieteZweitschluesselHalbjahr,
+                    MieteZweitschluesselHalbjahrZurueck, Kaution, KautionZweitschluessel,
+                    KautionZurueck, KautionZweitschluesselZurueck, Sonder, SonderZurueck,
+                    Ersatzschluessel);
         }
 }

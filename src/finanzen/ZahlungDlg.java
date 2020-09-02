@@ -116,7 +116,7 @@ public class ZahlungDlg extends javax.swing.JDialog {
         jPanel1.setName("jPanel1"); // NOI18N
 
         art.setFont(new java.awt.Font("Dialog", 0, 12));
-        art.setModel(new DefaultComboBoxModel<Zahlungsart>((Zahlungsart[]) EnumSet.allOf(Zahlungsart.class).toArray()));
+        art.setModel(new DefaultComboBoxModel<Zahlungsart>(Zahlungsart.alles.toArray(new Zahlungsart[0])));
         art.setSelectedItem(Zahlungsart.Miete);
         art.setName("art"); // NOI18N
         art.addActionListener(new java.awt.event.ActionListener() {
